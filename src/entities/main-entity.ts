@@ -1,23 +1,19 @@
-import { Demon } from 'entities/demon-entity';
 import { Entity } from 'entities/entity';
 import { Grid } from 'grid';
 
 export class MainEntity extends Entity {
   public grid: Grid;
   public inventory: string[] = [];
-  public party: Demon[] = [];
   public rendered: boolean = true;
   public busy = false;
   public cooldown = false;
 
   constructor(grid: Grid) {
     super({
-      mapX: 0,
-      mapY: 0,
       color: 'black',
       name: 'Hero',
-      gridY: 5,
-      gridX: 5,
+      gridY: 13,
+      gridX: 16,
     });
 
     this.grid = grid;
@@ -46,47 +42,21 @@ export class MainEntity extends Entity {
     document.addEventListener('keydown', (event) => {
       if (this.busy || this.cooldown) return;
       if (event.key === 'ArrowDown') {
-        if (this.gridY === 8) {
-          if (this.grid.moveMapY(1)) {
-            this.gridY = 1;
-            this.sleep();
-            return;
-          } else return;
-        }
         this.gridY += 1;
         this.sleep();
       }
 
       if (event.key === 'ArrowUp') {
-        if (this.gridY === 1) {
-          if (this.grid.moveMapY(-1)) {
-            this.gridY = 8;
-            this.sleep();
-          }
-        } else {
-          this.gridY -= 1;
-          this.sleep();
-        }
+        this.gridY -= 1;
+        this.sleep();
       }
       if (event.key === 'ArrowLeft') {
-        if (this.gridX === 1) {
-          if (this.grid.moveMapX(-1)) {
-            this.gridX = 10;
-            this.sleep();
-          }
-        } else this.gridX -= 1;
+        this.gridX -= 1;
         this.sleep();
       }
       if (event.key === 'ArrowRight') {
-        if (this.gridX === 10) {
-          if (this.grid.moveMapX(1)) {
-            this.gridX = 1;
-            this.sleep();
-          }
-        } else {
-          this.gridX += 1;
-          this.sleep();
-        }
+        this.gridX += 1;
+        this.sleep();
       }
 
       if (event.key === ' ') {

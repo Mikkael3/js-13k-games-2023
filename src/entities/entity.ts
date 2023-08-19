@@ -6,8 +6,6 @@ export type Stats = {
 };
 
 export type EntityProps = {
-  mapX: number;
-  mapY: number;
   gridY: number;
   gridX: number;
   color: string;
@@ -16,8 +14,6 @@ export type EntityProps = {
 };
 
 export class Entity {
-  public mapX: number;
-  public mapY: number;
   private _gridY: number;
   private _gridX: number;
   public color: string;
@@ -30,8 +26,6 @@ export class Entity {
     this.element = document.createElement('div');
     this.color = props.color;
     this.element.style.backgroundColor = this.color;
-    this.mapX = props.mapX;
-    this.mapY = props.mapY;
     this._gridY = props.gridY;
     this._gridX = props.gridX;
     this.element.style.gridArea = `${this.gridY}/${this.gridX}`;
@@ -48,14 +42,9 @@ export class Entity {
     };
   }
 
-  render(mapX: number, mapY: number, parent: HTMLElement) {
-    if (this.mapX === mapX && this.mapY === mapY) {
-      parent.appendChild(this.element);
-      this.rendered = true;
-    } else {
-      this.rendered = false;
-      this.element.remove();
-    }
+  render(parent: HTMLElement) {
+    parent.appendChild(this.element);
+    this.rendered = true;
   }
 
   get gridY() {

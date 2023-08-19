@@ -7,9 +7,9 @@ export class CollectableEntity extends Entity {
   public dialogBox?: DialogBox;
   public main?: MainEntity;
 
-  render(mapX: number, mapY: number, parent: HTMLElement): void {
+  render(parent: HTMLElement): void {
     if (this.collected) return;
-    super.render(mapX, mapY, parent);
+    super.render(parent);
   }
 
   keyHandler = (event: KeyboardEvent) => {
