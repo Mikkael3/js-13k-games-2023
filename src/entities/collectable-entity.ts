@@ -1,6 +1,6 @@
 import { Entity } from 'entities/entity';
 import { MainEntity } from 'entities/main-entity';
-import { DialogBox } from 'misc/dialog-box';
+import { DialogBox } from 'ui/dialog-box';
 
 export class CollectableEntity extends Entity {
   public collected = false;
