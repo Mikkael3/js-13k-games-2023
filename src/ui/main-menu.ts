@@ -1,7 +1,9 @@
-import { grid } from 'main';
+import { State, getState, grid, updateState } from 'main';
+
+const units = ['Peasant', 'Tower', 'Rice farmer'];
+const actions = ['Next wave'];
 
 export class MainMenu {
-  public elements = ['Peasant', 'Tower', 'Ricefarmer', 'Next wave'];
   public openElement?: HTMLDivElement;
 
   constructor() {
@@ -25,17 +27,35 @@ export class MainMenu {
 
   renderMenu() {
     const menuElement = document.createElement('div');
-    menuElement.style.backgroundColor = 'yellow';
+    menuElement.style.backgroundColor = 'white';
     menuElement.style.gridArea = `1/42/28/49`;
     menuElement.style.display = 'flex';
     menuElement.style.flexDirection = 'column';
     grid.uiGrid.appendChild(menuElement);
 
-    this.elements.forEach((e) => {
+    units.forEach((e) => {
       const element = document.createElement('div');
       element.style.backgroundColor = 'gray';
       element.style.width = `100%`;
       element.style.cursor = 'pointer';
+      element.textContent = e;
+      element.onclick = () => {
+        const state = getState();
+        const copyState = JSON.parse(JSON.stringify(state)) as State;
+        copyState.uiState.activeUnit = e;
+        updateState(copyState);
+        console.log(getState());
+      };
+      menuElement.appendChild(element);
+    });
+
+    actions.forEach((e) => {
+      const element = document.createElement('div');
+      element.style.backgroundColor = 'blue';
+      element.style.color = 'white';
+      element.style.width = `100%`;
+      element.style.cursor = 'pointer';
+      element.style.marginTop = 'auto';
       element.textContent = e;
       element.onclick = () => alert(e);
       menuElement.appendChild(element);
