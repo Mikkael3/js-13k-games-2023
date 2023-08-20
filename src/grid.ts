@@ -7,6 +7,7 @@ export class Grid {
   public entityGrid: HTMLDivElement;
   public uiGrid: HTMLDivElement;
   public entities: Entity[];
+
   public colCount = 48;
   public rowCount = 27;
   public tileSize = 32;
@@ -41,6 +42,7 @@ export class Grid {
     this.uiGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.uiGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.uiGrid.style.margin = 'auto';
+    this.bgGrid.appendChild(this.uiGrid);
   }
 
   genEls() {
@@ -56,11 +58,7 @@ export class Grid {
     this.bgGrid.appendChild(this.entityGrid);
   }
 
-  renderBattleGrid() {
-    this.bgGrid.appendChild(this.uiGrid);
-  }
-
-  unrenderBattleGrid() {
+  unrenderUiGrid() {
     this.uiGrid.innerHTML = '';
     this.uiGrid.remove();
   }

@@ -1,15 +1,11 @@
 import { grid } from 'main';
 
 export class MainMenu {
+  public elements = ['Peasant', 'Tower', 'Ricefarmer', 'Next wave'];
   public openElement?: HTMLDivElement;
 
   constructor() {
-    grid.renderBattleGrid();
     this.renderMenu();
-  }
-
-  handleFlee() {
-    grid.unrenderBattleGrid();
   }
 
   handleInventory = () => {
@@ -30,43 +26,19 @@ export class MainMenu {
   renderMenu() {
     const menuElement = document.createElement('div');
     menuElement.style.backgroundColor = 'yellow';
-    menuElement.style.gridArea = `0/1/1/20`;
+    menuElement.style.gridArea = `1/42/28/49`;
     menuElement.style.display = 'flex';
-    menuElement.style.flexDirection = 'row';
+    menuElement.style.flexDirection = 'column';
     grid.uiGrid.appendChild(menuElement);
 
-    const element = document.createElement('div');
-    element.style.backgroundColor = 'gray';
-    element.style.width = `25%`;
-    element.textContent = 'Battle';
-    menuElement.appendChild(element);
-
-    const itemsElement = document.createElement('div');
-    itemsElement.style.backgroundColor = 'cyan';
-    itemsElement.style.width = `25%`;
-    itemsElement.textContent = 'Inventory';
-    itemsElement.onclick = this.handleInventory;
-    menuElement.appendChild(itemsElement);
-
-    const statsElement = document.createElement('div');
-    statsElement.style.backgroundColor = 'yellow';
-    statsElement.style.width = `25%`;
-    statsElement.textContent = 'Stats';
-    menuElement.appendChild(statsElement);
-
-    const fleeElement = document.createElement('div');
-    fleeElement.style.backgroundColor = 'salmon';
-    fleeElement.style.width = `25%`;
-    fleeElement.textContent = 'Flee';
-    fleeElement.onclick = this.handleFlee;
-    menuElement.appendChild(fleeElement);
-  }
-
-  characterRender(gridY: number, gridX: number, color: string) {
-    const element = document.createElement('div');
-    element.style.backgroundColor = color;
-    element.style.gridArea = `${gridY}/${gridX}`;
-    grid.uiGrid.appendChild(element);
-    return element;
+    this.elements.forEach((e) => {
+      const element = document.createElement('div');
+      element.style.backgroundColor = 'gray';
+      element.style.width = `100%`;
+      element.style.cursor = 'pointer';
+      element.textContent = e;
+      element.onclick = () => alert(e);
+      menuElement.appendChild(element);
+    });
   }
 }
