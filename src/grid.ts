@@ -1,19 +1,17 @@
-import { g_entities } from 'entities';
-import { Entity } from 'entities/entity';
+import { renderEntity } from 'entities/entity';
 import { map } from 'maps';
+import { getEntitiesState } from 'state';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
-  public htmlGrid: HTMLDivElement;
+  public entityGrid: HTMLDivElement;
   public uiHtmlGrid: HTMLDivElement;
-  public entities: Entity[];
 
   public colCount = 48;
   public rowCount = 27;
   public tileSize = 32;
 
   constructor() {
-    this.entities = g_entities;
     this.bgGrid = document.createElement('div');
     this.bgGrid.style.display = 'grid';
     this.bgGrid.style.gridTemplateColumns = `repeat(${this.colCount}, 1fr)`;
@@ -23,16 +21,15 @@ export class Grid {
     this.bgGrid.style.backgroundColor = 'white';
     this.bgGrid.style.margin = 'auto';
 
-    this.htmlGrid = document.createElement('div');
-    this.htmlGrid.style.position = 'absolute';
-    this.htmlGrid.style.display = 'grid';
-    this.htmlGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
-    this.htmlGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
-    this.htmlGrid.style.width = `${this.tileSize * this.colCount}px`;
-    this.htmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
-    this.htmlGrid.style.margin = 'auto';
+    this.entityGrid = document.createElement('div');
+    this.entityGrid.style.position = 'absolute';
+    this.entityGrid.style.display = 'grid';
+    this.entityGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
+    this.entityGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
+    this.entityGrid.style.width = `${this.tileSize * this.colCount}px`;
+    this.entityGrid.style.height = `${this.tileSize * this.rowCount}px`;
+    this.entityGrid.style.margin = 'auto';
     document.body.insertAdjacentElement('afterbegin', this.bgGrid);
-    this.genEls();
 
     this.uiHtmlGrid = document.createElement('div');
     this.uiHtmlGrid.style.position = 'absolute';
@@ -42,7 +39,6 @@ export class Grid {
     this.uiHtmlGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.uiHtmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.uiHtmlGrid.style.margin = 'auto';
-    this.bgGrid.appendChild(this.uiHtmlGrid);
   }
 
   genEls() {
@@ -52,10 +48,11 @@ export class Grid {
       tileE.style.backgroundColor = tile;
       return tileE;
     });
-
+    this.entityGrid.innerHTML = '';
     els.forEach((e) => this.bgGrid.appendChild(e));
-    this.entities.forEach((e) => e.render(this.htmlGrid));
-    this.bgGrid.appendChild(this.htmlGrid);
+    getEntitiesState().forEach((e) => renderEntity(e, this.entityGrid));
+    this.bgGrid.appendChild(this.entityGrid);
+    this.bgGrid.appendChild(this.uiHtmlGrid);
   }
 
   unrenderUiGrid() {
