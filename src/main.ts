@@ -6,6 +6,7 @@ export const grid = new Grid();
 
 export const mainEntity = new MainEntity(grid);
 
-grid.entityGrid.appendChild(mainEntity.element);
+// Html elementti
+grid.htmlGrid.appendChild(mainEntity.element);
 
 new MainMenu();

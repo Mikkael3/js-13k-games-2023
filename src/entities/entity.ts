@@ -73,4 +73,8 @@ export class Entity {
     this.checkHit(entity);
     return;
   }
+
+  tick() {
+    // console.log('ticking along', this.name);
+  }
 }

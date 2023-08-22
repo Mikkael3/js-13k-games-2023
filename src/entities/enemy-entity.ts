@@ -21,4 +21,8 @@ export class EnemyEntity extends Entity {
       entity.gridX += 1; // tahan parempi logiikka siirtaa nyt main entityn pois alta
     }
   }
+
+  tick() {
+    this.gridX += 1;
+  }
 }

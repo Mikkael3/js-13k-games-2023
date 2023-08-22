@@ -5,16 +5,16 @@ const units = ['Peasant', 'Tower', 'Rice farmer'];
 const actions = ['Next wave'];
 
 export class MainMenu {
-  public menuContainer: HTMLDivElement;
+  public menuHtmlContainer: HTMLDivElement;
   public openElement?: HTMLDivElement;
 
   constructor() {
-    this.menuContainer = document.createElement('div');
-    this.menuContainer.style.backgroundColor = 'white';
-    this.menuContainer.style.gridArea = `1/42/28/49`;
-    this.menuContainer.style.display = 'flex';
-    this.menuContainer.style.flexDirection = 'column';
-    grid.uiGrid.appendChild(this.menuContainer);
+    this.menuHtmlContainer = document.createElement('div');
+    this.menuHtmlContainer.style.backgroundColor = 'white';
+    this.menuHtmlContainer.style.gridArea = `1/42/28/49`;
+    this.menuHtmlContainer.style.display = 'flex';
+    this.menuHtmlContainer.style.flexDirection = 'column';
+    grid.uiHtmlGrid.appendChild(this.menuHtmlContainer);
     this.renderMenu();
   }
 
@@ -35,7 +35,7 @@ export class MainMenu {
     selectionElement.style.color = 'white';
     selectionElement.textContent = uiState.activeUnit;
 
-    this.menuContainer.appendChild(selectionElement);
+    this.menuHtmlContainer.appendChild(selectionElement);
 
     this.openElement = selectionElement;
   };
@@ -53,7 +53,7 @@ export class MainMenu {
         updateUiState(state);
         this.handleSelection();
       };
-      this.menuContainer.appendChild(element);
+      this.menuHtmlContainer.appendChild(element);
     });
 
     actions.forEach((e) => {
@@ -65,7 +65,7 @@ export class MainMenu {
       element.style.marginTop = '50%';
       element.textContent = e;
       element.onclick = () => alert(e);
-      this.menuContainer.appendChild(element);
+      this.menuHtmlContainer.appendChild(element);
     });
   }
 }

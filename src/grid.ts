@@ -1,11 +1,11 @@
-import { entities } from 'entities';
+import { g_entities } from 'entities';
 import { Entity } from 'entities/entity';
 import { map } from 'maps';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
-  public entityGrid: HTMLDivElement;
-  public uiGrid: HTMLDivElement;
+  public htmlGrid: HTMLDivElement;
+  public uiHtmlGrid: HTMLDivElement;
   public entities: Entity[];
 
   public colCount = 48;
@@ -13,7 +13,7 @@ export class Grid {
   public tileSize = 32;
 
   constructor() {
-    this.entities = entities;
+    this.entities = g_entities;
     this.bgGrid = document.createElement('div');
     this.bgGrid.style.display = 'grid';
     this.bgGrid.style.gridTemplateColumns = `repeat(${this.colCount}, 1fr)`;
@@ -23,26 +23,26 @@ export class Grid {
     this.bgGrid.style.backgroundColor = 'white';
     this.bgGrid.style.margin = 'auto';
 
-    this.entityGrid = document.createElement('div');
-    this.entityGrid.style.position = 'absolute';
-    this.entityGrid.style.display = 'grid';
-    this.entityGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
-    this.entityGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
-    this.entityGrid.style.width = `${this.tileSize * this.colCount}px`;
-    this.entityGrid.style.height = `${this.tileSize * this.rowCount}px`;
-    this.entityGrid.style.margin = 'auto';
+    this.htmlGrid = document.createElement('div');
+    this.htmlGrid.style.position = 'absolute';
+    this.htmlGrid.style.display = 'grid';
+    this.htmlGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
+    this.htmlGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
+    this.htmlGrid.style.width = `${this.tileSize * this.colCount}px`;
+    this.htmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
+    this.htmlGrid.style.margin = 'auto';
     document.body.insertAdjacentElement('afterbegin', this.bgGrid);
     this.genEls();
 
-    this.uiGrid = document.createElement('div');
-    this.uiGrid.style.position = 'absolute';
-    this.uiGrid.style.display = 'grid';
-    this.uiGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
-    this.uiGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
-    this.uiGrid.style.width = `${this.tileSize * this.colCount}px`;
-    this.uiGrid.style.height = `${this.tileSize * this.rowCount}px`;
-    this.uiGrid.style.margin = 'auto';
-    this.bgGrid.appendChild(this.uiGrid);
+    this.uiHtmlGrid = document.createElement('div');
+    this.uiHtmlGrid.style.position = 'absolute';
+    this.uiHtmlGrid.style.display = 'grid';
+    this.uiHtmlGrid.style.gridTemplateColumns = `repeat(${this.colCount},1fr)`;
+    this.uiHtmlGrid.style.gridTemplateRows = `repeat(${this.rowCount},1fr)`;
+    this.uiHtmlGrid.style.width = `${this.tileSize * this.colCount}px`;
+    this.uiHtmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
+    this.uiHtmlGrid.style.margin = 'auto';
+    this.bgGrid.appendChild(this.uiHtmlGrid);
   }
 
   genEls() {
@@ -54,12 +54,12 @@ export class Grid {
     });
 
     els.forEach((e) => this.bgGrid.appendChild(e));
-    this.entities.forEach((e) => e.render(this.entityGrid));
-    this.bgGrid.appendChild(this.entityGrid);
+    this.entities.forEach((e) => e.render(this.htmlGrid));
+    this.bgGrid.appendChild(this.htmlGrid);
   }
 
   unrenderUiGrid() {
-    this.uiGrid.innerHTML = '';
-    this.uiGrid.remove();
+    this.uiHtmlGrid.innerHTML = '';
+    this.uiHtmlGrid.remove();
   }
 }

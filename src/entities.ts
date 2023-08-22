@@ -2,7 +2,7 @@ import { CollectableEntity } from 'entities/collectable-entity';
 import { EnemyEntity } from 'entities/enemy-entity';
 import { NpcEntity } from 'entities/npc-entity';
 
-export const entities = [
+export const g_entities = [
   new NpcEntity({
     color: 'blue',
     gridX: 13,

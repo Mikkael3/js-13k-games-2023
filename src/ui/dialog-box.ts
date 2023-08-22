@@ -18,7 +18,7 @@ export class DialogBox {
 
   showText(text: string) {
     this.unrender();
-    grid.entityGrid.appendChild(this.element);
+    grid.htmlGrid.appendChild(this.element);
     this.element.textContent = text;
   }
 }

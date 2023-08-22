@@ -42,7 +42,7 @@ export class NpcEntity extends Entity {
     if (this.checkHit(entity)) {
       if (this.texts) {
         entity.busy = true;
-        entity.grid.entityGrid.appendChild(this.dialogBox);
+        entity.grid.htmlGrid.appendChild(this.dialogBox);
         this.dialogBox.textContent = this.texts[this.index];
         entity.gridX += 1; // tahan parempi logiikka siirtaa nyt main entityn pois alta
         this.main = entity;
