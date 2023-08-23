@@ -14,7 +14,7 @@ export class MainMenu {
     this.menuHtmlContainer.style.gridArea = `1/42/28/49`;
     this.menuHtmlContainer.style.display = 'flex';
     this.menuHtmlContainer.style.flexDirection = 'column';
-    grid.uiHtmlGrid.appendChild(this.menuHtmlContainer);
+    grid.uiGrid.appendChild(this.menuHtmlContainer);
     this.renderMenu();
   }
 
