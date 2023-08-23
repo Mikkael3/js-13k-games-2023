@@ -3,12 +3,26 @@ import { grid } from '../main.ts';
 
 /**
  * Moves entity if it's enemy
- * @param entity
  */
-export const moveEnemy = (entity: Entity) => {
+export const moveEnemy = (selfEntity: Entity, allEntities: Entity[]) => {
+  if (selfEntity.name !== 'enemy') {
+    return selfEntity;
+  }
+  const newGridX = selfEntity.gridX + 1;
+  const collidedWithEntity = allEntities.find((ent) => {
+    // Avoids other enemies that would move out of the way, but maybe it doesn't matter
+    return selfEntity !== ent && newGridX === ent.gridX && selfEntity.gridY === ent.gridY;
+  });
+  if (collidedWithEntity) {
+    // Can't move forward so move to the side. Not checking if there is anything for now
+    return {
+      ...selfEntity,
+      gridY: selfEntity.gridY + 1,
+    };
+  }
   return {
-    ...entity,
-    gridX: entity.name === 'enemy' ? entity.gridX + 1 : entity.gridX,
+    ...selfEntity,
+    gridX: newGridX,
   };
 };
 

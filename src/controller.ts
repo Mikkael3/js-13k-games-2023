@@ -40,7 +40,7 @@ const sleep = async () => {
  * Run game systems that make up the game logic. I.e. run ticks.
  */
 export const runGameSystems = () => {
-  putsEntities(getsEntities().map((e) => moveEnemy(e)));
+  putsEntities(getsEntities().map((e) => moveEnemy(e, getsEntities())));
   if (gets().system.timer % 10 === 0) {
     putsEntities([...getsEntities(), createEnemyOnCoast()]);
   }
