@@ -1,7 +1,6 @@
-import { enemyTick } from 'entities/enemy-entity';
 import { Entity } from 'entities/entity';
 import { grid } from 'main';
-import { getEntitiesState, getSystemState, updateEntitiesState, updateSystemState } from 'state';
+import { getEntitiesState, getUiState, updateEntitiesState, updateUiState } from 'state';
 
 export const initControls = () => {
   document.addEventListener('keydown', (event) => {
@@ -21,26 +20,9 @@ export const initControls = () => {
       };
       updateEntitiesState([...getEntitiesState(), enemy]);
     }
+    if (event.key === 'k') {
+      if (!getUiState().dialog) updateUiState({ ...getUiState(), dialog: 'MORO' });
+      else updateUiState({ ...getUiState(), dialog: null });
+    }
   });
-};
-
-const sleep = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 266));
-};
-
-export const runTicks = () => {
-  console.log(getEntitiesState());
-  const newEntities = getEntitiesState().map((e) => enemyTick(e));
-  updateEntitiesState(newEntities);
-};
-
-export const runTick = async () => {
-  for (;;) {
-    const system = getSystemState();
-    updateSystemState({ ...system, timer: system.timer + 1 });
-    getSystemState().timer % 10 === 0 && console.log('ticking along', getSystemState().timer);
-    runTicks();
-    grid.genEls();
-    await sleep();
-  }
 };

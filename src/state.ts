@@ -6,6 +6,7 @@ export type SystemState = {
 
 export type UiState = {
   activeUnit: null | string;
+  dialog: string | null;
 };
 
 export type State = {
@@ -20,6 +21,7 @@ let state: State = {
   },
   uiState: {
     activeUnit: null,
+    dialog: null,
   },
   entities: [],
 };

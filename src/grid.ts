@@ -54,9 +54,4 @@ export class Grid {
     this.bgGrid.appendChild(this.entityGrid);
     this.bgGrid.appendChild(this.uiHtmlGrid);
   }
-
-  unrenderUiGrid() {
-    this.uiHtmlGrid.innerHTML = '';
-    this.uiHtmlGrid.remove();
-  }
 }

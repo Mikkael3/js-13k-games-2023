@@ -1,24 +1,10 @@
-import { grid } from 'main';
+import { Grid } from 'grid';
 
-export class DialogBox {
-  public locationBottom = true;
-  public element: HTMLDivElement;
-
-  constructor(locationBottom?: boolean) {
-    if (locationBottom !== undefined) this.locationBottom = locationBottom;
-    this.element = document.createElement('div');
-    this.element.style.backgroundColor = 'white';
-    if (this.locationBottom) this.element.style.gridArea = '8/1/8/11';
-    else this.element.style.gridArea = '1/1/1/11';
-  }
-
-  unrender() {
-    this.element.remove();
-  }
-
-  showText(text: string) {
-    this.unrender();
-    grid.entityGrid.appendChild(this.element);
-    this.element.textContent = text;
-  }
-}
+export const renderDialog = (grid: Grid, text: string, locationBottom = true) => {
+  const element = document.createElement('div');
+  element.style.backgroundColor = 'white';
+  if (locationBottom) element.style.gridArea = '8/1/8/11';
+  else element.style.gridArea = '1/1/1/11';
+  element.textContent = text;
+  grid.uiHtmlGrid.appendChild(element);
+};
