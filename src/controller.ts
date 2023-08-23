@@ -1,27 +1,35 @@
 import { createEnemyOnCoast, moveEnemy } from 'entities/enemy-entity';
-import { Entity } from 'entities/entity';
 import { grid } from 'main';
 import { gets, getsEntities, getsSystem, putsEntities, putsSystem } from 'state';
+import { randomInt } from './math.ts';
 
 export const initControls = () => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'j') {
-      const y = Math.ceil(Math.random() * (grid.colCount - 1));
-      const enemy: Entity = {
-        color: 'red',
-        gridX: 11,
-        gridY: y,
-        name: 'enemy',
-        stats: {
-          hp: 5,
-          attack: 1,
-          defence: 1,
-          speed: 0,
-        },
-      };
-      putsEntities([...getsEntities(), enemy]);
+      console.log('pressed j');
     }
   });
+};
+
+export const initEntities = () => {
+  const coastLineX = 13;
+  const rightEdgeX = grid.colCount - 7; // TODO why is right edge of grid not visible
+  const makeTower = () => {
+    return {
+      color: 'purple',
+      gridX: randomInt(coastLineX, rightEdgeX),
+      gridY: randomInt(1, grid.rowCount - 1),
+      name: 'tower',
+      stats: {
+        hp: 5,
+        attack: 1,
+        defence: 1,
+        speed: 0,
+      },
+    };
+  };
+  const towers = [...Array(30)].map(() => makeTower());
+  putsEntities([...getsEntities(), ...towers]);
 };
 
 const sleep = async () => {
@@ -38,7 +46,7 @@ export const runGameSystems = () => {
   }
 };
 
-export const runTick = async () => {
+export const runGameLoop = async () => {
   for (;;) {
     const system = getsSystem();
     putsSystem({ ...system, timer: system.timer + 1 });

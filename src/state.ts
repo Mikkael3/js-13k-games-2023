@@ -46,8 +46,10 @@ export const updateUiState = (newState: UiState) =>
     uiState: newState,
   });
 
+// getEntitiesState
 export const getsEntities = (): Entity[] => gets().entities;
 
+// updateEntitiesState
 export const putsEntities = (newEntities: Entity[]) =>
   puts({
     ...gets(),
