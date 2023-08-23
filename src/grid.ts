@@ -1,6 +1,6 @@
 import { renderEntity } from 'entities/entity';
 import { map } from 'maps';
-import { getEntitiesState } from 'state';
+import { getsEntities } from 'state';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -41,6 +41,9 @@ export class Grid {
     this.uiGrid.style.margin = 'auto';
   }
 
+  /**
+   * Destroys the (rendered) universe and recreates it
+   */
   genEls() {
     this.bgGrid.innerHTML = '';
     const els = map.map((tile) => {
@@ -50,7 +53,7 @@ export class Grid {
     });
     this.entityGrid.innerHTML = '';
     els.forEach((e) => this.bgGrid.appendChild(e));
-    getEntitiesState().forEach((e) => renderEntity(e, this.entityGrid));
+    getsEntities().forEach((e) => renderEntity(e, this.entityGrid));
     this.bgGrid.appendChild(this.entityGrid);
     this.bgGrid.appendChild(this.uiGrid);
   }

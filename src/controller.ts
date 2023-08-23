@@ -1,7 +1,7 @@
-import { enemyTick } from 'entities/enemy-entity';
+import { createEnemyOnCoast, moveEnemy } from 'entities/enemy-entity';
 import { Entity } from 'entities/entity';
 import { grid } from 'main';
-import { getEntitiesState, getSystemState, updateEntitiesState, updateSystemState } from 'state';
+import { gets, getsEntities, getsSystem, putsEntities, putsSystem } from 'state';
 
 export const initControls = () => {
   document.addEventListener('keydown', (event) => {
@@ -11,7 +11,7 @@ export const initControls = () => {
         color: 'red',
         gridX: 11,
         gridY: y,
-        name: 'mongool',
+        name: 'enemy',
         stats: {
           hp: 5,
           attack: 1,
@@ -19,7 +19,7 @@ export const initControls = () => {
           speed: 0,
         },
       };
-      updateEntitiesState([...getEntitiesState(), enemy]);
+      putsEntities([...getsEntities(), enemy]);
     }
   });
 };
@@ -28,18 +28,21 @@ const sleep = async () => {
   await new Promise((resolve) => setTimeout(resolve, 266));
 };
 
-export const runTicks = () => {
-  console.log(getEntitiesState());
-  const newEntities = getEntitiesState().map((e) => enemyTick(e));
-  updateEntitiesState(newEntities);
+/**
+ * Run game systems that make up the game logic. I.e. run ticks.
+ */
+export const runGameSystems = () => {
+  putsEntities(getsEntities().map((e) => moveEnemy(e)));
+  if (gets().system.timer % 10 === 0) {
+    putsEntities([...getsEntities(), createEnemyOnCoast()]);
+  }
 };
 
 export const runTick = async () => {
   for (;;) {
-    const system = getSystemState();
-    updateSystemState({ ...system, timer: system.timer + 1 });
-    getSystemState().timer % 10 === 0 && console.log('ticking along', getSystemState().timer);
-    runTicks();
+    const system = getsSystem();
+    putsSystem({ ...system, timer: system.timer + 1 });
+    runGameSystems();
     grid.genEls();
     await sleep();
   }

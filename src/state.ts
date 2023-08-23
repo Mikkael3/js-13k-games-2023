@@ -24,34 +24,40 @@ let state: State = {
   entities: [],
 };
 
-// get fresh and juicy copy of state
-export const getState = () => JSON.parse(JSON.stringify(state));
+/**
+ * getState - getS - gets (easier to type)
+ */
+export const gets = () => JSON.parse(JSON.stringify(state)) as State;
 
-export const updateState = (newState: State) => {
+/**
+ * updateState - putState - puts
+ * @param newState
+ */
+export const puts = (newState: State) => {
   state = newState;
 };
 
 // Get copy of UI state
-export const getUiState = () => getState().uiState;
+export const getUiState = () => gets().uiState;
 
 export const updateUiState = (newState: UiState) =>
-  updateState({
-    ...getState(),
+  puts({
+    ...gets(),
     uiState: newState,
   });
 
-export const getEntitiesState = (): Entity[] => getState().entities;
+export const getsEntities = (): Entity[] => gets().entities;
 
-export const updateEntitiesState = (newEntities: Entity[]) =>
-  updateState({
-    ...getState(),
+export const putsEntities = (newEntities: Entity[]) =>
+  puts({
+    ...gets(),
     entities: newEntities,
   });
 
-export const getSystemState = (): SystemState => getState().system;
+export const getsSystem = (): SystemState => gets().system;
 
-export const updateSystemState = (newSystem: SystemState) =>
-  updateState({
-    ...getState(),
+export const putsSystem = (newSystem: SystemState) =>
+  puts({
+    ...gets(),
     system: newSystem,
   });
