@@ -1,3 +1,6 @@
+import { isEnemy, renderEnemy } from './enemy-entity.ts';
+import { isTower, renderTower } from './tower-entity.ts';
+
 export type Stats = {
   hp: number;
   attack: number;
@@ -10,7 +13,6 @@ export type Entity = {
   gridX: number;
   color: string;
   name?: string;
-  stats?: Stats;
 };
 
 export const renderEntity = (entity: Entity, parent: HTMLDivElement) => {
@@ -22,4 +24,11 @@ export const renderEntity = (entity: Entity, parent: HTMLDivElement) => {
   element.style.justifySelf = 'center';
   element.style.alignSelf = 'center';
   parent.appendChild(element);
+  if (isEnemy(entity)) {
+    renderEnemy(entity, element);
+  }
+  if (isTower(entity)) {
+    renderTower(entity, element);
+  }
+  return element;
 };

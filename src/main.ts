@@ -8,28 +8,28 @@ import {
   updateEntitiesState,
   updateSystemState,
 } from 'state';
-import { createEnemyAt, moveEnemy } from './entities/enemy-entity.ts';
+import { createEnemyAt, isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
+import { shootTowersTick, TowerEntity } from './entities/tower-entity.ts';
 
 export const grid = new Grid();
 
 export const initEntities = () => {
-  const makeTower = (n: number) => {
+  const makeTower = (x: number, y: number): TowerEntity => {
     return {
       color: 'purple',
-      gridX: 18,
-      gridY: 8 + 2 * n,
+      gridX: x,
+      gridY: y,
       name: 'tower',
       stats: {
-        hp: 5,
         attack: 1,
-        defence: 1,
-        speed: 0,
+        range: 2,
       },
     };
   };
-  const towers = [...Array(4)].map((_, index) => makeTower(index));
-  updateEntitiesState([...getEntitiesState(), ...towers]);
+  const towers1 = [...Array(4)].map((_, index) => makeTower(18, 8 + 2 * index));
+  const towers2 = [...Array(4)].map((_, index) => makeTower(25, 9 + 2 * index));
+  updateEntitiesState([...getEntitiesState(), ...towers1, ...towers2]);
 };
 
 const sleep = async () => {
@@ -46,17 +46,28 @@ export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
   updateEntitiesState(getEntitiesState().map((e) => moveEnemy(e, getEntitiesState())));
   // Spawn enemies
-  if (getState().system.timer % 5 === 0) {
+  if (getState().system.timer % 3 === 0) {
     if (getState().system.waveStarted) {
       updateEntitiesState([...getEntitiesState(), createEnemyAt(10, 10)]);
     }
   }
-  // Remove enemies
+  /// Remove enemies if they leave the grid
   updateEntitiesState(
     getEntitiesState().filter((entity) => {
       return entity.gridX < grid.colCount;
     }),
   );
+  // Reset enemies as not taking damage
+  updateEntitiesState(
+    getEntitiesState().map((entity) => {
+      return isEnemy(entity) ? { ...entity, takingDamage: false } : entity;
+    }),
+  );
+  // Shoot towers
+  shootTowersTick();
+
+  // Debug
+  window.state = getState();
 };
 
 export const runGameLoop = async () => {
