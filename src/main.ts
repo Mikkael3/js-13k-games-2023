@@ -43,7 +43,7 @@ const sleep = async () => {
  * Run game systems that make up the game logic. I.e. run ticks.
  */
 export const runGameSystems = () => {
-  // Move enemies
+  if (!getSystemState().waveStarted) return;
   updateEntitiesState(getEntitiesState().map((e) => moveEnemy(e, getEntitiesState())));
   // Spawn enemies
   if (getState().system.timer % 5 === 0) {
