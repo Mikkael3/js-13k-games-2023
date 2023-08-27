@@ -1,3 +1,4 @@
+import 'globals.ts';
 import { initControls } from 'controller';
 import { Grid } from 'grid';
 import {
@@ -35,7 +36,10 @@ export const initEntities = () => {
 };
 
 const sleep = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 266));
+  do {
+    await new Promise((resolve) => setTimeout(resolve, window.wait));
+    // Keep waiting if pause variable is set
+  } while (window.pause);
 };
 
 /**
