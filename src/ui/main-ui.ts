@@ -11,7 +11,7 @@ const actions: Action[] = [
     name: 'Next Wave',
     handler: (grid: Grid) => () => {
       updateSystemState({ ...getSystemState(), waveStarted: true });
-      renderMenu(grid);
+      renderUi(grid);
     },
   },
 ];
@@ -26,23 +26,35 @@ const waveActions: Action[] = [
   },
 ];
 
-export const renderMenu = (grid: Grid) => {
+export const renderUi = (grid: Grid) => {
   grid.uiHtmlGrid.innerHTML = '';
-  const menuContainer = renderMenuContainer(grid);
-  renderMenuItems(menuContainer, grid);
+  const uiContainer = renderUiContainer(grid);
+  renderStatus(uiContainer);
+  renderUnits(uiContainer, grid);
+  renderActions(uiContainer, grid);
 };
 
-const renderMenuContainer = (grid: Grid) => {
+const renderUiContainer = (grid: Grid) => {
   const menuHtmlContainer = document.createElement('div');
   menuHtmlContainer.style.backgroundColor = 'white';
   menuHtmlContainer.style.gridArea = `1/42/28/49`;
-  menuHtmlContainer.style.display = 'flex';
-  menuHtmlContainer.style.flexDirection = 'column';
+  menuHtmlContainer.style.display = 'grid';
+  menuHtmlContainer.style.gridTemplateColumns = `repeat(${1}, 1fr)`;
+  menuHtmlContainer.style.gridTemplateRows = `repeat(${6},1fr)`;
   grid.uiHtmlGrid.appendChild(menuHtmlContainer);
   return menuHtmlContainer;
 };
 
-const renderMenuItems = (container: HTMLDivElement, grid: Grid) => {
+const renderStatus = (container: HTMLDivElement) => {
+  const element = document.createElement('div');
+  element.style.backgroundColor = 'orange';
+  element.style.width = `100%`;
+  element.style.cursor = 'pointer';
+  element.textContent = `Wave ${getSystemState().wave}/10`;
+  container.appendChild(element);
+};
+
+const renderUnits = (container: HTMLDivElement, grid: Grid) => {
   const state = getUiState();
   units.forEach((e) => {
     const element = document.createElement('div');
@@ -55,11 +67,13 @@ const renderMenuItems = (container: HTMLDivElement, grid: Grid) => {
       const state = getUiState();
       state.activeUnit = e;
       updateUiState(state);
-      renderMenu(grid);
+      renderUi(grid);
     };
     container.appendChild(element);
   });
+};
 
+const renderActions = (container: HTMLDivElement, grid: Grid) => {
   const currentActions = getSystemState().waveStarted ? waveActions : actions;
 
   currentActions.forEach((e) => {
@@ -68,7 +82,6 @@ const renderMenuItems = (container: HTMLDivElement, grid: Grid) => {
     element.style.color = 'white';
     element.style.width = `100%`;
     element.style.cursor = 'pointer';
-    element.style.marginTop = '50%';
     element.textContent = e.name;
     element.onclick = e.handler(grid);
     container.appendChild(element);

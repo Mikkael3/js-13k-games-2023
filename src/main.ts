@@ -9,7 +9,7 @@ import {
   updateSystemState,
 } from 'state';
 import { createEnemyAt, moveEnemy } from './entities/enemy-entity.ts';
-import { renderMenu } from './ui/main-menu.ts';
+import { renderUi } from './ui/main-ui.ts';
 
 export const grid = new Grid();
 
@@ -69,7 +69,7 @@ export const runGameLoop = async () => {
   }
 };
 
-renderMenu(grid);
+renderUi(grid);
 initControls();
 initEntities();
 runGameLoop();
