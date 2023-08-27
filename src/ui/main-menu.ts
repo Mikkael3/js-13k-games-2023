@@ -1,7 +1,7 @@
 import { Grid } from 'grid';
 import { getUiState, updateUiState } from 'state';
 
-const units = ['Peasant', 'Tower', 'Rice farmer'];
+const units = ['Peasant', 'Tower', 'Rice farmer', 'Creeper'];
 const actions = ['Next wave'];
 
 export const renderMenu = (grid: Grid) => {

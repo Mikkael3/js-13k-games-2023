@@ -20,6 +20,7 @@ export class Grid {
     this.bgGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.bgGrid.style.backgroundColor = 'white';
     this.bgGrid.style.margin = 'auto';
+    document.body.insertAdjacentElement('afterbegin', this.bgGrid);
 
     this.entityGrid = document.createElement('div');
     this.entityGrid.style.position = 'absolute';
@@ -29,7 +30,6 @@ export class Grid {
     this.entityGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.entityGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.entityGrid.style.margin = 'auto';
-    document.body.insertAdjacentElement('afterbegin', this.bgGrid);
 
     this.uiHtmlGrid = document.createElement('div');
     this.uiHtmlGrid.style.position = 'absolute';
@@ -45,6 +45,8 @@ export class Grid {
     this.bgGrid.innerHTML = '';
     const els = map.map((tile) => {
       const tileE = document.createElement('div');
+      tileE.style.width = `${this.tileSize}px`;
+      tileE.style.height = `${this.tileSize}px`;
       tileE.style.backgroundColor = tile;
       return tileE;
     });

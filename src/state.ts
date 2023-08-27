@@ -2,6 +2,8 @@ import { Entity } from './entities/entity.ts';
 
 export type SystemState = {
   timer: number;
+  wave: number;
+  waveStarted: boolean;
 };
 
 export type UiState = {
@@ -13,11 +15,21 @@ export type State = {
   uiState: UiState;
   entities: Entity[];
   system: SystemState;
+  player: PlayerState;
+};
+
+export type PlayerState = {
+  rice: number;
 };
 
 let state: State = {
   system: {
     timer: 0,
+    wave: 1,
+    waveStarted: false,
+  },
+  player: {
+    rice: 1000,
   },
   uiState: {
     activeUnit: null,

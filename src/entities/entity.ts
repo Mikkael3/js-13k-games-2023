@@ -17,8 +17,8 @@ export const renderEntity = (entity: Entity, parent: HTMLDivElement) => {
   const element = document.createElement('div');
   element.style.backgroundColor = entity.color;
   element.style.gridArea = `${entity.gridY}/${entity.gridX}`;
-  element.style.width = '95%';
-  element.style.height = '95%';
+  element.style.width = '30px';
+  element.style.height = '30px';
   element.style.justifySelf = 'center';
   element.style.alignSelf = 'center';
   parent.appendChild(element);
