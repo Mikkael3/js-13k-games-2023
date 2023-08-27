@@ -42,3 +42,19 @@ export const createEnemyOnCoast = () => {
   };
   return enemy;
 };
+
+export const createEnemyAt = (x: number, y: number) => {
+  const enemy: Entity = {
+    color: 'red',
+    gridX: x,
+    gridY: y,
+    name: 'enemy',
+    stats: {
+      hp: 5,
+      attack: 1,
+      defence: 1,
+      speed: 0,
+    },
+  };
+  return enemy;
+};

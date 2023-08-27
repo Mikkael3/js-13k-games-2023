@@ -39,7 +39,7 @@ let state: State = {
 };
 
 // get fresh and juicy copy of state
-export const getState = () => JSON.parse(JSON.stringify(state));
+export const getState = () => JSON.parse(JSON.stringify(state)) as State;
 
 export const updateState = (newState: State) => {
   state = newState;
@@ -64,8 +64,9 @@ export const updateEntitiesState = (newEntities: Entity[]) =>
 
 export const getSystemState = (): SystemState => getState().system;
 
-export const updateSystemState = (newSystem: SystemState) =>
-  updateState({
+export const updateSystemState = (newSystem: Partial<SystemState>) => {
+  return updateState({
     ...getState(),
-    system: newSystem,
+    system: { ...getSystemState(), ...newSystem },
   });
+};

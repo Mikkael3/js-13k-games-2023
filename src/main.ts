@@ -8,20 +8,17 @@ import {
   updateEntitiesState,
   updateSystemState,
 } from 'state';
-import { createEnemyOnCoast, moveEnemy } from './entities/enemy-entity.ts';
-import { randomInt } from './math.ts';
+import { createEnemyAt, moveEnemy } from './entities/enemy-entity.ts';
 import { renderMenu } from './ui/main-menu.ts';
 
 export const grid = new Grid();
 
 export const initEntities = () => {
-  const coastLineX = 13;
-  const rightEdgeX = grid.colCount - 7; // TODO why is right edge of grid not visible
-  const makeTower = () => {
+  const makeTower = (n: number) => {
     return {
       color: 'purple',
-      gridX: randomInt(coastLineX, rightEdgeX),
-      gridY: randomInt(1, grid.rowCount - 1),
+      gridX: 18,
+      gridY: 8 + 2 * n,
       name: 'tower',
       stats: {
         hp: 5,
@@ -31,7 +28,7 @@ export const initEntities = () => {
       },
     };
   };
-  const towers = [...Array(40)].map(() => makeTower());
+  const towers = [...Array(4)].map((_, index) => makeTower(index));
   updateEntitiesState([...getEntitiesState(), ...towers]);
 };
 
@@ -46,10 +43,20 @@ const sleep = async () => {
  * Run game systems that make up the game logic. I.e. run ticks.
  */
 export const runGameSystems = () => {
+  // Move enemies
   updateEntitiesState(getEntitiesState().map((e) => moveEnemy(e, getEntitiesState())));
+  // Spawn enemies
   if (getState().system.timer % 5 === 0) {
-    updateEntitiesState([...getEntitiesState(), createEnemyOnCoast()]);
+    if (getState().system.waveStarted) {
+      updateEntitiesState([...getEntitiesState(), createEnemyAt(10, 10)]);
+    }
   }
+  // Remove enemies
+  updateEntitiesState(
+    getEntitiesState().filter((entity) => {
+      return entity.gridX < grid.colCount;
+    }),
+  );
 };
 
 export const runGameLoop = async () => {

@@ -1,5 +1,5 @@
 import { Grid } from 'grid';
-import { getUiState, updateUiState } from 'state';
+import { getUiState, updateSystemState, updateUiState } from 'state';
 
 const units = ['Peasant', 'Tower', 'Rice farmer', 'Creeper'];
 const actions = ['Next wave'];
@@ -46,7 +46,7 @@ const renderMenuItems = (container: HTMLDivElement, grid: Grid) => {
     element.style.cursor = 'pointer';
     element.style.marginTop = '50%';
     element.textContent = e;
-    element.onclick = () => alert(e);
+    element.onclick = () => updateSystemState({ waveStarted: true });
     container.appendChild(element);
   });
 };
