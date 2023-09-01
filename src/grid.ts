@@ -1,6 +1,14 @@
-import { renderEntity } from 'entities/entity';
+import { Entity, renderEntity } from 'entities/entity';
+import { TowerEntity, makeTower } from 'entities/tower-entity';
 import { map } from 'maps';
-import { getEnemiesState, getTowersState, updateTowersState } from 'state';
+import {
+  getEnemiesState,
+  getTowersState,
+  getUiState,
+  updateTowersState,
+  updateUiState,
+} from 'state';
+import { renderUi } from 'ui/main-ui';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -39,24 +47,59 @@ export class Grid {
     this.uiHtmlGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.uiHtmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.uiHtmlGrid.style.margin = 'auto';
-    this.uiHtmlGrid.addEventListener('click', this.handleClick(this.uiHtmlGrid));
+    this.uiHtmlGrid.addEventListener('click', this.handleClick(this));
+    this.uiHtmlGrid.addEventListener('mousemove', this.handleMouseMove(this));
   }
 
   handleClick =
-    (container: HTMLDivElement) =>
+    (grid: Grid) =>
     ({ clientX, clientY }: MouseEvent) => {
-      const gridX = Math.ceil((clientX - container.getBoundingClientRect().left) / 32);
-      const gridY = Math.ceil((clientY - container.getBoundingClientRect().top) / 32);
+      const gridX = Math.ceil((clientX - grid.uiHtmlGrid.getBoundingClientRect().left) / 32);
+      const gridY = Math.ceil((clientY - grid.uiHtmlGrid.getBoundingClientRect().top) / 32);
       const towerIndex = getTowersState().findIndex(
         (tower) => tower.gridX === gridX && tower.gridY === gridY,
       );
-      if (towerIndex >= 0) {
-        updateTowersState(
-          getTowersState().map((tower, index) => {
-            return { ...tower, selected: index === towerIndex };
-          }),
-        );
+
+      if (gridX > 41) return;
+
+      let newTower: TowerEntity | null = null;
+
+      if (gridX < 42) {
+        if (towerIndex === -1 && getUiState().activeUnit) {
+          newTower = makeTower(gridX, gridY);
+        }
+
+        updateUiState({ ...getUiState(), activeUnit: null });
+        renderUi(grid);
       }
+
+      updateTowersState([
+        ...getTowersState().map((tower, index) => {
+          return { ...tower, selected: index === towerIndex };
+        }),
+        ...(newTower ? [newTower] : []),
+      ]);
+    };
+
+  handleMouseMove =
+    (grid: Grid) =>
+    ({ clientX, clientY }: MouseEvent) => {
+      const gridX = Math.ceil((clientX - grid.uiHtmlGrid.getBoundingClientRect().left) / 32);
+      if (getUiState().activeUnit === null) return;
+      if (gridX > 41) {
+        renderUi(grid);
+        return;
+      }
+      const gridY = Math.ceil((clientY - grid.uiHtmlGrid.getBoundingClientRect().top) / 32);
+      const entity: Entity = {
+        gridX,
+        gridY,
+        color: 'pink',
+        name: 'hover-unit',
+      };
+      renderUi(grid);
+
+      renderEntity(entity, grid.uiHtmlGrid);
     };
 
   genEls() {
