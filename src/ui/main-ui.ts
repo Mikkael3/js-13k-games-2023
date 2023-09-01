@@ -12,7 +12,7 @@ const actions: Action[] = [
   {
     name: 'Next Wave',
     handler: (grid: Grid) => () => {
-      updateSystemState({ ...getSystemState(), waveStarted: true });
+      updateSystemState({ ...getSystemState(), waveStarted: true, timer: 0 });
       renderUi(grid);
     },
   },

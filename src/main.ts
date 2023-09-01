@@ -13,6 +13,7 @@ import {
 import { createEnemyAt, isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
 import { makeTower, shootTowersTick } from './entities/tower-entity.ts';
+import { getNextSpawns, wave1 } from './waves.ts';
 
 export const grid = new Grid();
 
@@ -36,11 +37,14 @@ export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
   updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
   // Spawn enemies
-  if (getState().system.timer % 3 === 0) {
-    if (getState().system.waveStarted) {
-      updateEnemiesState([...getEnemiesState(), createEnemyAt(10, 10)]);
+  if (getState().system.waveStarted) {
+    // updateEnemiesState([...getEnemiesState(), createEnemyAt(10, 10)]);
+    const newEnemies = getNextSpawns(wave1, getSystemState().timer);
+    if (newEnemies.length > 0) {
+      updateEnemiesState([...getEnemiesState(), ...newEnemies]);
     }
   }
+
   /// Remove enemies if they leave the grid
   updateEnemiesState(
     getEnemiesState().filter((entity) => {

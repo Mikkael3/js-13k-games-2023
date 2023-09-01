@@ -3,14 +3,16 @@ import { EnemyEntity } from './entities/enemy-entity.ts';
 export type EnemyType = 'basicEnemy' | 'fasterEnemy';
 
 export type Wave = {
-  spawnPoint: { x: number; y: number };
-  spawns: Array<{
+  // Groups spawn all at once but "delay" can be used to control when groups spawn
+  groups: Array<{
     type: EnemyType;
+    x: number;
+    y: number;
     count: number;
     // How many ticks between spawns
     interval: number;
     // How many ticks to wait until starting to spawn enemies
-    delay?: number;
+    delay: number;
   }>;
 };
 
@@ -32,7 +34,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
   fasterEnemy: (x: number, y: number) => {
     return {
       name: 'enemy',
-      color: 'green',
+      color: 'purple',
       gridX: x,
       gridY: y,
       stats: {
@@ -46,34 +48,55 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
 };
 
 export const wave1: Wave = {
-  spawnPoint: { x: 10, y: 10 },
-  spawns: [
+  groups: [
     {
       type: 'basicEnemy',
+      x: 10,
+      y: 10,
       count: 4,
-      interval: 2,
+      interval: 3,
+      delay: 0,
     },
     {
       type: 'fasterEnemy',
+      x: 5,
+      y: 12,
+      count: 10,
+      interval: 2,
+      delay: 10,
+    },
+    {
+      type: 'basicEnemy',
+      x: 10,
+      y: 13,
       count: Infinity,
-      interval: 1,
-      delay: 8,
+      interval: 2,
+      delay: 20,
     },
   ],
 };
 
 /**
- *
+ * Returns the new enemies that are spawned on this tick
  * @param wave
- * @param waveTick Ticks since start of wave (start at 0)
+ * @param originalWaveTick Ticks since start of wave (start at 0)
  */
-// export const getNextSpawn = (wave: Wave, waveTick: number): EnemyEntity[] => {
-//   const enemies = wave.spawns.map((spawn) => {
-//     const createEnemy = enemyCreatorByEnemyType[spawn.type];
-//     // TODO check if delay and interval matches to the tick
-//     // const enemy = createEnemy(wave.spawnPoint);
-//     return '';
-//   });
-//
-//   return enemies;
-// };
+export const getNextSpawns = (wave: Wave, originalWaveTick: number): EnemyEntity[] => {
+  const shouldSpawnEnemy = (spawn: Wave['groups'][number]) => {
+    // Subtract delay from original tick value
+    const tick = originalWaveTick - spawn.delay;
+
+    return (
+      tick > 0 && // has passed delay
+      tick % spawn.interval === 0 && // it's time to spawn
+      spawn.count > tick / spawn.interval // there is still enemies to spawn
+    );
+  };
+  const spawns = wave.groups.filter(shouldSpawnEnemy);
+  const enemies = spawns.map((group) => {
+    const createEnemyFn = enemyCreatorByEnemyType[group.type];
+    return createEnemyFn(group.x, group.y);
+  });
+
+  return enemies;
+};
