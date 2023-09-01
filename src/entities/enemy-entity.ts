@@ -27,11 +27,10 @@ export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
 /**
  * Moves entity if it's enemy
  */
-export const moveEnemy = (selfEntity: EnemyEntity, allEntities: EnemyEntity[]) => {
+export const moveEnemy = (selfEntity: EnemyEntity) => {
   if (selfEntity.stats.hp <= 0) {
     return selfEntity;
   }
-  console.log(allEntities);
   const newGridX = selfEntity.gridX + 1;
   const collidedWithEntity = getTowersState().find((entity) => {
     // Avoids other enemies that would move out of the way, but maybe it doesn't matter

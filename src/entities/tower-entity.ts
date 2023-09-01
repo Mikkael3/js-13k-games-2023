@@ -1,6 +1,11 @@
 import { Entity } from './entity.ts';
-import { EnemyEntity, isEnemy } from './enemy-entity.ts';
-import { getEnemiesState, updateEnemiesState } from '../state.ts';
+import { EnemyEntity } from './enemy-entity.ts';
+import {
+  getEnemiesState,
+  getTowersState,
+  updateEnemiesState,
+  updateTowersState,
+} from '../state.ts';
 
 export type TowerEntity = Entity & {
   name: 'tower';
@@ -22,11 +27,7 @@ export const renderTower = (entity: TowerEntity, element: HTMLDivElement) => {
 };
 
 export const shootTowersTick = () => {
-  getEnemiesState().forEach((tower, index) => {
-    if (!isTower(tower)) {
-      return;
-    }
-
+  getTowersState().forEach((tower, index) => {
     shootTargetInRange(tower, index);
   });
 };
@@ -34,37 +35,37 @@ export const shootTowersTick = () => {
 // Shoots and damages enemy in range (if any).
 // Updates entity state of shot enemy and tower.
 export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
-  console.log(tower, towerIndex);
-  // const entities = getEnemiesState();
-  // const shotEnemyIndex = entities.findIndex((enemy) => {
-  //   if (!isEnemy(enemy)) return false;
-  //   // Distance is grid distance. Difference of X and Y coordinates added together
-  //   const distance = Math.abs(enemy.gridX - tower.gridX) + Math.abs(enemy.gridY - tower.gridY);
-  //   return distance <= tower.stats.range && enemy.stats.hp > 0;
-  // });
-  // const newEntities = getEnemiesState();
-  // if (shotEnemyIndex > -1) {
-  //   const shotEnemy = entities[shotEnemyIndex] as EnemyEntity;
-  //   const newTower: TowerEntity = {
-  //     ...tower,
-  //     targetPosition: { x: shotEnemy.gridX, y: shotEnemy.gridY },
-  //   };
-  //   newEntities[towerIndex] = newTower;
-  //   const newEnemy: EnemyEntity = {
-  //     ...shotEnemy,
-  //     stats: { ...shotEnemy.stats, hp: shotEnemy.stats.hp - tower.stats.attack },
-  //     takingDamage: true,
-  //   };
-  //   newEntities[shotEnemyIndex] = newEnemy;
-  // } else {
-  //   // No target was shot. Set tower as not shooting
-  //   const newTower: TowerEntity = {
-  //     ...tower,
-  //     targetPosition: undefined,
-  //   };
-  //   newEntities[towerIndex] = newTower;
-  // }
-  // updateEnemiesState(newEntities);
+  const enemies = getEnemiesState();
+  const shotEnemyIndex = enemies.findIndex((enemy) => {
+    // Distance is grid distance. Difference of X and Y coordinates added together
+    const distance = Math.abs(enemy.gridX - tower.gridX) + Math.abs(enemy.gridY - tower.gridY);
+    return distance <= tower.stats.range && enemy.stats.hp > 0;
+  });
+  const newTowers = getTowersState();
+  const newEnemies = getEnemiesState();
+  if (shotEnemyIndex > -1) {
+    const shotEnemy = enemies[shotEnemyIndex];
+    const newTower: TowerEntity = {
+      ...tower,
+      targetPosition: { x: shotEnemy.gridX, y: shotEnemy.gridY },
+    };
+    newTowers[towerIndex] = newTower;
+    const newEnemy: EnemyEntity = {
+      ...shotEnemy,
+      stats: { ...shotEnemy.stats, hp: shotEnemy.stats.hp - tower.stats.attack },
+      takingDamage: true,
+    };
+    newEnemies[shotEnemyIndex] = newEnemy;
+  } else {
+    // No target was shot. Set tower as not shooting
+    const newTower: TowerEntity = {
+      ...tower,
+      targetPosition: undefined,
+    };
+    newTowers[towerIndex] = newTower;
+  }
+  updateEnemiesState(newEnemies);
+  updateTowersState(newTowers);
 };
 
 export const makeTower = (x: number, y: number): TowerEntity => {

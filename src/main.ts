@@ -34,7 +34,7 @@ const sleep = async () => {
  */
 export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
-  updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e, getEnemiesState())));
+  updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
   // Spawn enemies
   if (getState().system.timer % 3 === 0) {
     if (getState().system.waveStarted) {
