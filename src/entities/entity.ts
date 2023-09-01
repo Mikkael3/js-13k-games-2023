@@ -5,6 +5,7 @@ export type Stats = {
   hp: number;
   attack: number;
   defence: number;
+  // Speed is delay between moves. Lower is faster. 0 means entity moves every tick
   speed: number;
 };
 
