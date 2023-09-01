@@ -8,9 +8,8 @@ export type EnemyEntity = Entity & {
   stats: Stats;
   // Is it taking damage this tick
   takingDamage?: boolean;
-  // takingDamage voisi olla sen sijaan:
-  // effects: [{ takingDamage: boolean; ticks: 1 }];
-  // Jos olisi muita efektejä kuten poisoned
+  // Cooldown on moving. If it's 0 the unit can move. It's set to 'speed' value after moving
+  moveCd: number;
 };
 
 export const isEnemy = (entity: Entity): entity is EnemyEntity => entity.name === 'enemy';
@@ -27,43 +26,31 @@ export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
 /**
  * Moves entity if it's enemy
  */
-export const moveEnemy = (selfEntity: EnemyEntity) => {
-  if (selfEntity.stats.hp <= 0) {
-    return selfEntity;
+export const moveEnemy = (enemy: EnemyEntity) => {
+  if (enemy.stats.hp <= 0) {
+    return enemy;
   }
-  const newGridX = selfEntity.gridX + 1;
+  if (enemy.moveCd > 0) {
+    return { ...enemy, moveCd: enemy.moveCd - 1 };
+  }
+  const newGridX = enemy.gridX + 1;
   const collidedWithEntity = getTowersState().find((entity) => {
     // Avoids other enemies that would move out of the way, but maybe it doesn't matter
-    return isTower(entity) && newGridX === entity.gridX && selfEntity.gridY === entity.gridY;
+    return isTower(entity) && newGridX === entity.gridX && enemy.gridY === entity.gridY;
   });
   if (collidedWithEntity) {
     // Can't move forward so move to the side. Not checking if there is anything for now
     return {
-      ...selfEntity,
-      gridY: selfEntity.gridY + 1,
+      ...enemy,
+      gridY: enemy.gridY + 1,
+      moveCd: enemy.stats.speed,
     };
   }
   return {
-    ...selfEntity,
+    ...enemy,
     gridX: newGridX,
+    moveCd: enemy.stats.speed,
   };
-};
-
-export const createEnemyOnCoast = () => {
-  const y = Math.ceil(Math.random() * (grid.rowCount - 1));
-  const enemy: EnemyEntity = {
-    color: 'red',
-    gridX: 11,
-    gridY: y,
-    name: 'enemy',
-    stats: {
-      hp: 5,
-      attack: 1,
-      defence: 1,
-      speed: 0,
-    },
-  };
-  return enemy;
 };
 
 export const createEnemyAt = (x: number, y: number) => {
@@ -78,6 +65,7 @@ export const createEnemyAt = (x: number, y: number) => {
       defence: 1,
       speed: 0,
     },
+    moveCd: 0,
   };
   return enemy;
 };

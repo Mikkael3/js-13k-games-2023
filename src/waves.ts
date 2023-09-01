@@ -26,9 +26,10 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
       stats: {
         hp: 10,
         attack: 2,
-        speed: 1,
+        speed: 2,
         defence: 2,
       },
+      moveCd: 0,
     };
   },
   fasterEnemy: (x: number, y: number) => {
@@ -43,6 +44,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
         speed: 0,
         defence: 1,
       },
+      moveCd: 0,
     };
   },
 };
@@ -53,26 +55,26 @@ export const wave1: Wave = {
       type: 'basicEnemy',
       x: 10,
       y: 10,
-      count: 4,
-      interval: 3,
+      count: 3,
+      interval: 5,
       delay: 0,
     },
     {
       type: 'fasterEnemy',
-      x: 5,
-      y: 12,
-      count: 10,
-      interval: 2,
-      delay: 10,
-    },
-    {
-      type: 'basicEnemy',
       x: 10,
-      y: 13,
-      count: Infinity,
+      y: 12,
+      count: 3,
       interval: 2,
-      delay: 20,
+      delay: 0,
     },
+    // {
+    //   type: 'basicEnemy',
+    //   x: 10,
+    //   y: 13,
+    //   count: Infinity,
+    //   interval: 5,
+    //   delay: 20,
+    // },
   ],
 };
 
@@ -85,9 +87,9 @@ export const getNextSpawns = (wave: Wave, originalWaveTick: number): EnemyEntity
   const shouldSpawnEnemy = (spawn: Wave['groups'][number]) => {
     // Subtract delay from original tick value
     const tick = originalWaveTick - spawn.delay;
-
+    console.log('ori', originalWaveTick);
     return (
-      tick > 0 && // has passed delay
+      tick >= 0 && // has passed delay
       tick % spawn.interval === 0 && // it's time to spawn
       spawn.count > tick / spawn.interval // there is still enemies to spawn
     );

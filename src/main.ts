@@ -10,7 +10,7 @@ import {
   updateSystemState,
   updateTowersState,
 } from 'state';
-import { createEnemyAt, isEnemy, moveEnemy } from './entities/enemy-entity.ts';
+import { isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
 import { makeTower, shootTowersTick } from './entities/tower-entity.ts';
 import { getNextSpawns, wave1 } from './waves.ts';
@@ -35,17 +35,16 @@ const sleep = async () => {
  */
 export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
+  // Move enemies
   updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
   // Spawn enemies
   if (getState().system.waveStarted) {
-    // updateEnemiesState([...getEnemiesState(), createEnemyAt(10, 10)]);
     const newEnemies = getNextSpawns(wave1, getSystemState().timer);
     if (newEnemies.length > 0) {
       updateEnemiesState([...getEnemiesState(), ...newEnemies]);
     }
   }
-
-  /// Remove enemies if they leave the grid
+  // Remove enemies if they leave the grid
   updateEnemiesState(
     getEnemiesState().filter((entity) => {
       return entity.gridX < grid.colCount;
@@ -60,14 +59,15 @@ export const runGameSystems = () => {
   // Shoot towers
   shootTowersTick();
 
+  const system = getSystemState();
+  // Update timer
+  updateSystemState({ ...system, timer: system.timer + 1 });
   // Debug
   window.state = getState();
 };
 
 export const runGameLoop = async () => {
   for (;;) {
-    const system = getSystemState();
-    updateSystemState({ ...system, timer: system.timer + 1 });
     runGameSystems();
     grid.genEls();
     await sleep();
