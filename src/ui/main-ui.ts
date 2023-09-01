@@ -5,7 +5,9 @@ type Action = {
   name: string;
   handler: (grid: Grid) => () => void;
 };
+
 const units = ['Peasant', 'Tower', 'Rice farmer', 'Creeper'];
+
 const actions: Action[] = [
   {
     name: 'Next Wave',
