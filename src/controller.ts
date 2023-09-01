@@ -1,16 +1,17 @@
-import { Entity } from 'entities/entity';
+import { EnemyEntity } from 'entities/enemy-entity';
+
 import { grid } from 'main';
-import { getEntitiesState, getUiState, updateEntitiesState, updateUiState } from 'state';
+import { getEnemiesState, getUiState, updateEnemiesState, updateUiState } from 'state';
 
 export const initControls = () => {
   document.addEventListener('keydown', (event) => {
     if (event.key === 'j') {
       const y = Math.ceil(Math.random() * (grid.colCount - 1));
-      const enemy: Entity = {
+      const enemy: EnemyEntity = {
         color: 'red',
         gridX: 11,
         gridY: y,
-        name: 'mongool',
+        name: 'enemy',
         stats: {
           hp: 5,
           attack: 1,
@@ -18,7 +19,7 @@ export const initControls = () => {
           speed: 0,
         },
       };
-      updateEntitiesState([...getEntitiesState(), enemy]);
+      updateEnemiesState([...getEnemiesState(), enemy]);
     }
     if (event.key === 'k') {
       if (!getUiState().dialog) updateUiState({ ...getUiState(), dialog: 'MORO' });

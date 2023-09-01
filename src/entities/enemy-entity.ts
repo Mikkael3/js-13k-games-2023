@@ -1,6 +1,7 @@
 import { Entity, Stats } from 'entities/entity';
 import { grid } from '../main.ts';
 import { isTower } from './tower-entity.ts';
+import { getTowersState } from 'state.ts';
 
 export type EnemyEntity = Entity & {
   name: 'enemy';
@@ -26,15 +27,13 @@ export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
 /**
  * Moves entity if it's enemy
  */
-export const moveEnemy = (selfEntity: Entity, allEntities: Entity[]) => {
-  if (!isEnemy(selfEntity)) {
-    return selfEntity;
-  }
+export const moveEnemy = (selfEntity: EnemyEntity, allEntities: EnemyEntity[]) => {
   if (selfEntity.stats.hp <= 0) {
     return selfEntity;
   }
+  console.log(allEntities);
   const newGridX = selfEntity.gridX + 1;
-  const collidedWithEntity = allEntities.find((entity) => {
+  const collidedWithEntity = getTowersState().find((entity) => {
     // Avoids other enemies that would move out of the way, but maybe it doesn't matter
     return isTower(entity) && newGridX === entity.gridX && selfEntity.gridY === entity.gridY;
   });

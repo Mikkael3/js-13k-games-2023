@@ -2,11 +2,13 @@ import 'globals.ts';
 import { initControls } from 'controller';
 import { Grid } from 'grid';
 import {
-  getEntitiesState,
+  getEnemiesState,
   getState,
   getSystemState,
-  updateEntitiesState,
+  getTowersState,
+  updateEnemiesState,
   updateSystemState,
+  updateTowersState,
 } from 'state';
 import { createEnemyAt, isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
@@ -29,7 +31,7 @@ export const initEntities = () => {
   };
   const towers1 = [...Array(4)].map((_, index) => makeTower(18, 8 + 2 * index));
   const towers2 = [...Array(4)].map((_, index) => makeTower(25, 9 + 2 * index));
-  updateEntitiesState([...getEntitiesState(), ...towers1, ...towers2]);
+  updateTowersState([...getTowersState(), ...towers1, ...towers2]);
 };
 
 const sleep = async () => {
@@ -44,22 +46,22 @@ const sleep = async () => {
  */
 export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
-  updateEntitiesState(getEntitiesState().map((e) => moveEnemy(e, getEntitiesState())));
+  updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e, getEnemiesState())));
   // Spawn enemies
   if (getState().system.timer % 3 === 0) {
     if (getState().system.waveStarted) {
-      updateEntitiesState([...getEntitiesState(), createEnemyAt(10, 10)]);
+      updateEnemiesState([...getEnemiesState(), createEnemyAt(10, 10)]);
     }
   }
   /// Remove enemies if they leave the grid
-  updateEntitiesState(
-    getEntitiesState().filter((entity) => {
+  updateEnemiesState(
+    getEnemiesState().filter((entity) => {
       return entity.gridX < grid.colCount;
     }),
   );
   // Reset enemies as not taking damage
-  updateEntitiesState(
-    getEntitiesState().map((entity) => {
+  updateEnemiesState(
+    getEnemiesState().map((entity) => {
       return isEnemy(entity) ? { ...entity, takingDamage: false } : entity;
     }),
   );

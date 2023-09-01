@@ -1,6 +1,6 @@
 import { renderEntity } from 'entities/entity';
 import { map } from 'maps';
-import { getEntitiesState } from 'state';
+import { getEnemiesState, getTowersState } from 'state';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -52,7 +52,8 @@ export class Grid {
     });
     this.entityGrid.innerHTML = '';
     els.forEach((e) => this.bgGrid.appendChild(e));
-    getEntitiesState().forEach((e) => renderEntity(e, this.entityGrid));
+    getEnemiesState().forEach((e) => renderEntity(e, this.entityGrid));
+    getTowersState().forEach((e) => renderEntity(e, this.entityGrid));
     this.bgGrid.appendChild(this.entityGrid);
     this.bgGrid.appendChild(this.uiHtmlGrid);
   }

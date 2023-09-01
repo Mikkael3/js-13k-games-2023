@@ -1,4 +1,6 @@
+import { EnemyEntity } from 'entities/enemy-entity.ts';
 import { Entity } from './entities/entity.ts';
+import { TowerEntity } from 'entities/tower-entity.ts';
 
 export type SystemState = {
   timer: number;
@@ -13,7 +15,8 @@ export type UiState = {
 
 export type State = {
   uiState: UiState;
-  entities: Entity[];
+  enemies: EnemyEntity[];
+  towers: TowerEntity[];
   system: SystemState;
   player: PlayerState;
 };
@@ -35,7 +38,8 @@ let state: State = {
     activeUnit: null,
     dialog: null,
   },
-  entities: [],
+  enemies: [],
+  towers: [],
 };
 
 // get fresh and juicy copy of state
@@ -54,12 +58,20 @@ export const updateUiState = (newState: UiState) =>
     uiState: newState,
   });
 
-export const getEntitiesState = (): Entity[] => getState().entities;
+export const getEnemiesState = (): EnemyEntity[] => getState().enemies;
 
-export const updateEntitiesState = (newEntities: Entity[]) =>
+export const updateEnemiesState = (newEntities: EnemyEntity[]) =>
   updateState({
     ...getState(),
-    entities: newEntities,
+    enemies: newEntities,
+  });
+
+export const getTowersState = (): TowerEntity[] => getState().towers;
+
+export const updateTowersState = (newEntities: TowerEntity[]) =>
+  updateState({
+    ...getState(),
+    towers: newEntities,
   });
 
 export const getSystemState = (): SystemState => getState().system;
