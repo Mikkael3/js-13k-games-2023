@@ -16,7 +16,8 @@
   "rules": {
     "prettier/prettier": "off",
     "spaced-comment": "off",
-    "@typescript-eslint/no-unused-vars": "warn"
+    "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "error"
   },
   "env": {
     "browser": true,
