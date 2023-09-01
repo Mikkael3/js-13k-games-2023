@@ -12,23 +12,11 @@ import {
 } from 'state';
 import { createEnemyAt, isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
-import { shootTowersTick, TowerEntity } from './entities/tower-entity.ts';
+import { makeTower, shootTowersTick } from './entities/tower-entity.ts';
 
 export const grid = new Grid();
 
 export const initEntities = () => {
-  const makeTower = (x: number, y: number): TowerEntity => {
-    return {
-      color: 'purple',
-      gridX: x,
-      gridY: y,
-      name: 'tower',
-      stats: {
-        attack: 1,
-        range: 2,
-      },
-    };
-  };
   const towers1 = [...Array(4)].map((_, index) => makeTower(18, 8 + 2 * index));
   const towers2 = [...Array(4)].map((_, index) => makeTower(25, 9 + 2 * index));
   updateTowersState([...getTowersState(), ...towers1, ...towers2]);

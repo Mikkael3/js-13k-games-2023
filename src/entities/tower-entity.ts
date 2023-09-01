@@ -8,6 +8,7 @@ export type TowerEntity = Entity & {
     attack: number;
     range: number;
   };
+  selected: boolean;
   // Position of target that tower is shooting at
   targetPosition?: { x: number; y: number };
 };
@@ -64,4 +65,18 @@ export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
   //   newEntities[towerIndex] = newTower;
   // }
   // updateEnemiesState(newEntities);
+};
+
+export const makeTower = (x: number, y: number): TowerEntity => {
+  return {
+    color: 'purple',
+    gridX: x,
+    gridY: y,
+    name: 'tower',
+    selected: false,
+    stats: {
+      attack: 1,
+      range: 2,
+    },
+  };
 };

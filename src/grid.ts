@@ -39,6 +39,11 @@ export class Grid {
     this.uiHtmlGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.uiHtmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.uiHtmlGrid.style.margin = 'auto';
+    this.uiHtmlGrid.addEventListener('click', this.handleClick);
+  }
+
+  handleClick({ clientX, clientY }: MouseEvent) {
+    console.log(clientX, clientY);
   }
 
   genEls() {
