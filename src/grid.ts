@@ -1,6 +1,6 @@
 import { renderEntity } from 'entities/entity';
 import { map } from 'maps';
-import { getEnemiesState, getTowersState } from 'state';
+import { getEnemiesState, getTowersState, updateTowersState } from 'state';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -39,12 +39,25 @@ export class Grid {
     this.uiHtmlGrid.style.width = `${this.tileSize * this.colCount}px`;
     this.uiHtmlGrid.style.height = `${this.tileSize * this.rowCount}px`;
     this.uiHtmlGrid.style.margin = 'auto';
-    this.uiHtmlGrid.addEventListener('click', this.handleClick);
+    this.uiHtmlGrid.addEventListener('click', this.handleClick(this.uiHtmlGrid));
   }
 
-  handleClick({ clientX, clientY }: MouseEvent) {
-    console.log(clientX, clientY);
-  }
+  handleClick =
+    (container: HTMLDivElement) =>
+    ({ clientX, clientY }: MouseEvent) => {
+      const gridX = Math.ceil((clientX - container.getBoundingClientRect().left) / 32);
+      const gridY = Math.ceil((clientY - container.getBoundingClientRect().top) / 32);
+      const towerIndex = getTowersState().findIndex(
+        (tower) => tower.gridX === gridX && tower.gridY === gridY,
+      );
+      if (towerIndex >= 0) {
+        updateTowersState(
+          getTowersState().map((tower, index) => {
+            return { ...tower, selected: index === towerIndex };
+          }),
+        );
+      }
+    };
 
   genEls() {
     this.bgGrid.innerHTML = '';

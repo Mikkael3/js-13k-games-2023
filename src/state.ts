@@ -1,5 +1,4 @@
 import { EnemyEntity } from 'entities/enemy-entity.ts';
-import { Entity } from './entities/entity.ts';
 import { TowerEntity } from 'entities/tower-entity.ts';
 
 export type SystemState = {

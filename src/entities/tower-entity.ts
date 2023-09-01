@@ -24,6 +24,7 @@ export const renderTower = (entity: TowerEntity, element: HTMLDivElement) => {
   if (entity.targetPosition) {
     element.style.backgroundColor = 'white';
   }
+  if (entity.selected) element.style.border = '1px solid gold';
 };
 
 export const shootTowersTick = () => {
