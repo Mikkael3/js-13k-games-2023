@@ -1,6 +1,5 @@
 import { Entity } from './entity.ts';
 import { EnemyEntity, isEnemy } from './enemy-entity.ts';
-
 import { getEnemiesState, updateEnemiesState } from '../state.ts';
 
 export type TowerEntity = Entity & {
@@ -26,6 +25,7 @@ export const shootTowersTick = () => {
     if (!isTower(tower)) {
       return;
     }
+
     shootTargetInRange(tower, index);
   });
 };
