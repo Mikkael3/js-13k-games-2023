@@ -87,7 +87,6 @@ export const getNextSpawns = (wave: Wave, originalWaveTick: number): EnemyEntity
   const shouldSpawnEnemy = (spawn: Wave['groups'][number]) => {
     // Subtract delay from original tick value
     const tick = originalWaveTick - spawn.delay;
-    console.log('ori', originalWaveTick);
     return (
       tick >= 0 && // has passed delay
       tick % spawn.interval === 0 && // it's time to spawn
