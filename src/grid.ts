@@ -11,6 +11,7 @@ import {
   updateUiState,
 } from 'state';
 import { renderUi } from 'ui/main-ui';
+import { renderVillage } from './entities/village.ts';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -121,6 +122,7 @@ export class Grid {
     els.forEach((e) => this.bgGrid.appendChild(e));
     getEnemiesState().forEach((e) => renderEntity(e, this.entityGrid));
     getTowersState().forEach((e) => renderEntity(e, this.entityGrid));
+    renderVillage(this);
     this.bgGrid.appendChild(this.entityGrid);
     this.bgGrid.appendChild(this.uiHtmlGrid);
   }

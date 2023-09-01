@@ -12,16 +12,19 @@ export type UiState = {
   dialog: string | null;
 };
 
+export type PlayerState = {
+  rice: number;
+};
+
+export type Village = { x: number; y: number; width: number; height: number };
+
 export type State = {
   uiState: UiState;
   enemies: EnemyEntity[];
   towers: TowerEntity[];
   system: SystemState;
   player: PlayerState;
-};
-
-export type PlayerState = {
-  rice: number;
+  village: Village;
 };
 
 let state: State = {
@@ -39,6 +42,12 @@ let state: State = {
   },
   enemies: [],
   towers: [],
+  village: {
+    x: 39,
+    y: 11,
+    height: 7,
+    width: 3,
+  },
 };
 
 // get fresh and juicy copy of state
