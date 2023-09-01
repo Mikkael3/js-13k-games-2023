@@ -7,6 +7,16 @@ import {
   updateTowersState,
 } from '../state.ts';
 
+export type TowerType = 'Peasant' | 'Tower' | 'Rice Farmer' | 'Creeper';
+export const units: Readonly<TowerType[]> = ['Peasant', 'Tower', 'Rice Farmer', 'Creeper'] as const;
+
+export const UnitPrices: { [key in TowerType]: number } = {
+  ['Rice Farmer']: 900,
+  ['Peasant']: 100,
+  ['Tower']: 400,
+  ['Creeper']: 200,
+};
+
 export type TowerEntity = Entity & {
   name: 'tower';
   stats: {

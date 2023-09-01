@@ -1,10 +1,12 @@
 import { Entity, renderEntity } from 'entities/entity';
-import { TowerEntity, makeTower } from 'entities/tower-entity';
+import { TowerEntity, TowerType, UnitPrices, makeTower } from 'entities/tower-entity';
 import { map } from 'maps';
 import {
   getEnemiesState,
+  getPlayerState,
   getTowersState,
   getUiState,
+  updatePlayerState,
   updateTowersState,
   updateUiState,
 } from 'state';
@@ -66,7 +68,11 @@ export class Grid {
 
       if (gridX < 42) {
         if (towerIndex === -1 && getUiState().activeUnit) {
-          newTower = makeTower(gridX, gridY);
+          const price = UnitPrices[getUiState().activeUnit as TowerType];
+          if (getPlayerState().rice >= price) {
+            newTower = makeTower(gridX, gridY);
+            updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice - price });
+          }
         }
 
         updateUiState({ ...getUiState(), activeUnit: null });

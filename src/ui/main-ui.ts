@@ -1,16 +1,21 @@
+import { UnitPrices, units } from 'entities/tower-entity';
 import { Grid } from 'grid';
-import { getSystemState, getUiState, updateSystemState, updateUiState } from 'state';
+import {
+  getPlayerState,
+  getSystemState,
+  getUiState,
+  updateSystemState,
+  updateUiState,
+} from 'state';
 
 type Action = {
   name: string;
   handler: (grid: Grid) => () => void;
 };
 
-const units = ['Peasant', 'Tower', 'Rice farmer', 'Creeper'];
-
 const actions: Action[] = [
   {
-    name: 'Next Wave',
+    name: 'Start Wave',
     handler: (grid: Grid) => () => {
       updateSystemState({ ...getSystemState(), waveStarted: true, timer: 0 });
       renderUi(grid);
@@ -48,12 +53,17 @@ const renderUiContainer = (grid: Grid) => {
 };
 
 const renderStatus = (container: HTMLDivElement) => {
-  const element = document.createElement('div');
-  element.style.backgroundColor = 'orange';
-  element.style.width = `100%`;
-  element.style.cursor = 'pointer';
-  element.textContent = `Wave ${getSystemState().wave}/10`;
-  container.appendChild(element);
+  const waveStatus = document.createElement('div');
+  waveStatus.style.width = `100%`;
+  waveStatus.style.cursor = 'pointer';
+  waveStatus.textContent = `Wave ${getSystemState().wave}/10`;
+  const riceStatus = document.createElement('div');
+  riceStatus.textContent = `Rice: ${getPlayerState().rice}`;
+  const statusContainer = document.createElement('div');
+  statusContainer.style.backgroundColor = 'orange';
+  statusContainer.appendChild(waveStatus);
+  statusContainer.appendChild(riceStatus);
+  container.appendChild(statusContainer);
 };
 
 const renderUnits = (container: HTMLDivElement, grid: Grid) => {
@@ -65,6 +75,9 @@ const renderUnits = (container: HTMLDivElement, grid: Grid) => {
     element.style.width = `100%`;
     element.style.cursor = 'pointer';
     element.textContent = e;
+    const price = document.createElement('div');
+    price.textContent = `Rice: ${UnitPrices[e]}`;
+    element.appendChild(price);
     element.onclick = () => {
       const state = getUiState();
       state.activeUnit = e;

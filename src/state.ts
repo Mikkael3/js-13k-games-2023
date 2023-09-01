@@ -81,3 +81,11 @@ export const updateSystemState = (newSystem: Partial<SystemState>) => {
     system: { ...getSystemState(), ...newSystem },
   });
 };
+
+export const getPlayerState = () => getState().player;
+
+export const updatePlayerState = (newState: PlayerState) =>
+  updateState({
+    ...getState(),
+    player: newState,
+  });
