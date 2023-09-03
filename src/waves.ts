@@ -35,7 +35,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
   fasterEnemy: (x: number, y: number) => {
     return {
       name: 'enemy',
-      color: 'purple',
+      color: 'hotpink',
       gridX: x,
       gridY: y,
       stats: {
