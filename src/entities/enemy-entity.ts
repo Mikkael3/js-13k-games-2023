@@ -39,7 +39,6 @@ export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
     y: getState().village.y,
   };
   const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, villagePosition, getState());
-  console.log('path', path);
   if (!path) {
     console.error("Enemy couldn't find any path to village and is mighty confused!");
     return enemy;
