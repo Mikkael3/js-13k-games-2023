@@ -18,8 +18,8 @@ import { getNextSpawns, wave1 } from './waves.ts';
 export const grid = new Grid();
 
 export const initEntities = () => {
-  const towers1 = [...Array(4)].map((_, index) => makeTower(18, 8 + 2 * index));
-  const towers2 = [...Array(4)].map((_, index) => makeTower(25, 9 + 2 * index));
+  const towers1 = [...Array(8)].map((_, index) => makeTower(18, 12 + 1 * index));
+  const towers2 = [...Array(7)].map((_, index) => makeTower(25, 8 + 1 * index));
   updateTowersState([...getTowersState(), ...towers1, ...towers2]);
 };
 

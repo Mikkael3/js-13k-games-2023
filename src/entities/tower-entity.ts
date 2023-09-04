@@ -87,7 +87,8 @@ export const makeTower = (x: number, y: number): TowerEntity => {
     name: 'tower',
     selected: false,
     stats: {
-      attack: 1,
+      // TODO temporarily does 0 damage
+      attack: 0,
       range: 2,
     },
   };

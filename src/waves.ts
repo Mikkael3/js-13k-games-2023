@@ -26,7 +26,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
       stats: {
         hp: 10,
         attack: 2,
-        speed: 2,
+        speed: 1,
         defence: 2,
       },
       moveCd: 0,

@@ -1,2 +1,2 @@
-window.wait = 500;
+window.wait = 200;
 window.pause = false;
