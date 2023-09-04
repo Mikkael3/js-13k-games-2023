@@ -1,10 +1,10 @@
 import { State } from './state.ts';
 
-// TODO check and use real game area limits. These are guessed
+// TODO Use better game area limits.
 const minX = 10;
 const maxX = 45;
 const minY = 1;
-const maxY = 20;
+const maxY = 27;
 
 type Position = { x: number; y: number };
 
