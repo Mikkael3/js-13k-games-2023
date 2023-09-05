@@ -12,6 +12,7 @@ export const initControls = () => {
         gridX: 11,
         gridY: y,
         name: 'enemy',
+        moveCd: 0,
         stats: {
           hp: 5,
           attack: 1,
