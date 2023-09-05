@@ -8,16 +8,6 @@ const maxY = 27;
 
 type Position = { x: number; y: number };
 
-const reconstructPath = (cameFrom: Record<string, Position>, goal: Position) => {
-  let current = goal;
-  const totalPath = [current];
-  while (nodeKey(current) in cameFrom) {
-    current = cameFrom[nodeKey(current)];
-    totalPath.push(current);
-  }
-  return totalPath.reverse();
-};
-
 // A* algorithm. See wikipedia for explanation
 export const pathfind = (startPos: Position, goalPos: Position, state: State) => {
   const cameFrom: Record<string, Position> = {};
@@ -52,6 +42,16 @@ export const pathfind = (startPos: Position, goalPos: Position, state: State) =>
   }
   console.log("Couldn't find path start to goal:", startPos, goalPos);
   return null;
+};
+
+const reconstructPath = (cameFrom: Record<string, Position>, goal: Position) => {
+  let current = goal;
+  const totalPath = [current];
+  while (nodeKey(current) in cameFrom) {
+    current = cameFrom[nodeKey(current)];
+    totalPath.push(current);
+  }
+  return totalPath.reverse();
 };
 
 const getNeighborEdgeCost = (_current: Position, neighbor: Position, state: State) => {
