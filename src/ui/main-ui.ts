@@ -1,10 +1,12 @@
-import { UnitPrices, units } from 'entities/tower-entity';
+import { TowerEntity, UnitPrices, UpdatePaths, units } from 'entities/tower-entity';
 import { Grid } from 'grid';
 import {
   getPlayerState,
   getSystemState,
+  getTowersState,
   getUiState,
   updateSystemState,
+  updateTowersState,
   updateUiState,
 } from 'state';
 
@@ -37,8 +39,43 @@ export const renderUi = (grid: Grid) => {
   grid.uiHtmlGrid.innerHTML = '';
   const uiContainer = renderUiContainer(grid);
   renderStatus(uiContainer);
+  const selectedUnit = getTowersState().find((t) => t.selected);
+  if (selectedUnit) return renderTowerInfo(uiContainer, grid, selectedUnit);
   renderUnits(uiContainer, grid);
   renderActions(uiContainer, grid);
+};
+
+const renderTowerInfo = (container: HTMLDivElement, grid: Grid, tower: TowerEntity) => {
+  const updatePaths = UpdatePaths['Tower'];
+  updatePaths.forEach((e) => {
+    if (!tower.color) return;
+    const element = document.createElement('div');
+    element.style.backgroundColor = 'gray';
+    element.style.width = `100%`;
+    element.style.cursor = 'pointer';
+    element.textContent = e.name;
+    const price = document.createElement('div');
+    price.textContent = `Rice: ${e.price}`;
+    element.appendChild(price);
+    element.onclick = () => {
+      const state = getUiState();
+      updateUiState(state);
+      renderUi(grid);
+    };
+    container.appendChild(element);
+  });
+
+  const element = document.createElement('div');
+  element.style.backgroundColor = 'blue';
+  element.style.color = 'white';
+  element.style.width = `100%`;
+  element.style.cursor = 'pointer';
+  element.textContent = 'Back';
+  element.onclick = () => {
+    updateTowersState(getTowersState().map((t) => ({ ...t, selected: false })));
+    renderUi(grid);
+  };
+  container.appendChild(element);
 };
 
 const renderUiContainer = (grid: Grid) => {

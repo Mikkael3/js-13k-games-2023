@@ -86,6 +86,7 @@ export class Grid {
         }),
         ...(newTower ? [newTower] : []),
       ]);
+      renderUi(this);
     };
 
   handleMouseMove =

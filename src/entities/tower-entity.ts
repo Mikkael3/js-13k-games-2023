@@ -17,6 +17,16 @@ export const UnitPrices: { [key in TowerType]: number } = {
   ['Creeper']: 200,
 };
 
+export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[] } = {
+  ['Rice Farmer']: [],
+  ['Peasant']: [],
+  ['Tower']: [
+    { name: 'Wooden pagoda', price: 300 },
+    { name: 'Stone pagoda', price: 500 },
+  ],
+  ['Creeper']: [],
+};
+
 export type TowerEntity = Entity & {
   name: 'tower';
   stats: {
