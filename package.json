@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "tsc --noEmit && eslint --ext .ts ."
+    "lint": "tsc --noEmit && eslint --ext .ts .",
+    "zip": "zip -r -9 -j game.zip dist/*",
+    "build-zip": "rm -rf dist;rm -rf game.zip; npm run build; npm run zip; du -b game.zip"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^6.0.0",

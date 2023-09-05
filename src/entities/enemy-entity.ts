@@ -1,7 +1,8 @@
 import { Entity, Stats } from 'entities/entity';
 import { grid } from '../main.ts';
 import { isTower } from './tower-entity.ts';
-import { getTowersState } from 'state.ts';
+import { getState, getTowersState } from 'state.ts';
+import { pathfind } from '../pathfinding.ts';
 
 export type EnemyEntity = Entity & {
   name: 'enemy';
@@ -15,6 +16,9 @@ export type EnemyEntity = Entity & {
 export const isEnemy = (entity: Entity): entity is EnemyEntity => entity.name === 'enemy';
 
 export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
+  element.style.background = 'transparent';
+  element.style.backgroundImage = `url('/mongol.png')`;
+  element.style.backgroundSize = 'cover';
   if (entity.takingDamage) {
     element.style.backgroundColor = 'orange';
   }
@@ -26,29 +30,32 @@ export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
 /**
  * Moves entity if it's enemy
  */
-export const moveEnemy = (enemy: EnemyEntity) => {
+export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
   if (enemy.stats.hp <= 0) {
     return enemy;
   }
   if (enemy.moveCd > 0) {
     return { ...enemy, moveCd: enemy.moveCd - 1 };
   }
-  const newGridX = enemy.gridX + 1;
-  const collidedWithEntity = getTowersState().find((entity) => {
-    // Avoids other enemies that would move out of the way, but maybe it doesn't matter
-    return isTower(entity) && newGridX === entity.gridX && enemy.gridY === entity.gridY;
-  });
-  if (collidedWithEntity) {
-    // Can't move forward so move to the side. Not checking if there is anything for now
-    return {
-      ...enemy,
-      gridY: enemy.gridY + 1,
-      moveCd: enemy.stats.speed,
-    };
+  const villagePosition = {
+    x: getState().village.x,
+    y: getState().village.y,
+  };
+  const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, villagePosition, getState());
+  if (!path) {
+    console.error("Enemy couldn't find any path to village and is mighty confused!");
+    return enemy;
+  }
+  if (path.length === 1) {
+    // Were at the goal
+    console.log('Enemy reached the goal');
+    return enemy;
   }
   return {
     ...enemy,
-    gridX: newGridX,
+    // Next step is the second element of path
+    gridX: path[1].x,
+    gridY: path[1].y,
     moveCd: enemy.stats.speed,
   };
 };
