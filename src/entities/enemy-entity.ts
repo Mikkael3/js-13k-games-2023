@@ -18,6 +18,7 @@ export const isEnemy = (entity: Entity): entity is EnemyEntity => entity.name ==
 export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
   element.style.background = 'transparent';
   element.style.backgroundImage = `url('/mongol.png')`;
+  element.style.backgroundSize = 'cover';
   if (entity.takingDamage) {
     element.style.backgroundColor = 'orange';
   }
