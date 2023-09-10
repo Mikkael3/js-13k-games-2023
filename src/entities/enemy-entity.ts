@@ -1,8 +1,6 @@
 import { Entity, Stats } from 'entities/entity';
-import { grid } from '../main.ts';
-import { isTower } from './tower-entity.ts';
-import { getState, getTowersState } from 'state.ts';
-import { pathfind } from '../pathfinding.ts';
+import { getState } from 'state.ts';
+import { pathfind } from 'pathfinding';
 
 export type EnemyEntity = Entity & {
   name: 'enemy';
