@@ -96,10 +96,13 @@ const renderStatus = (container: HTMLDivElement) => {
   waveStatus.textContent = `Wave ${getSystemState().wave}/10`;
   const riceStatus = document.createElement('div');
   riceStatus.textContent = `Rice: ${getPlayerState().rice}`;
+  const lifeStatus = document.createElement('div');
+  lifeStatus.textContent = `Life: ${getPlayerState().life}`;
   const statusContainer = document.createElement('div');
   statusContainer.style.backgroundColor = 'orange';
   statusContainer.appendChild(waveStatus);
   statusContainer.appendChild(riceStatus);
+  statusContainer.appendChild(lifeStatus);
   container.appendChild(statusContainer);
 };
 

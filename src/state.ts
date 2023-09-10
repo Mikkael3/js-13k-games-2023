@@ -14,6 +14,7 @@ export type UiState = {
 
 export type PlayerState = {
   rice: number;
+  life: number;
 };
 
 export type Village = { x: number; y: number; width: number; height: number };
@@ -35,6 +36,7 @@ let state: State = {
   },
   player: {
     rice: 1000,
+    life: 100,
   },
   uiState: {
     activeUnit: null,
