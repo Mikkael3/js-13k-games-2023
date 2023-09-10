@@ -1,6 +1,7 @@
 import { Entity, Stats } from 'entities/entity';
 import { getState } from 'state.ts';
 import { pathfind } from 'pathfinding';
+import { getVillageCoordinates } from './village.ts';
 
 export type EnemyEntity = Entity & {
   name: 'enemy';
@@ -35,19 +36,8 @@ export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
   if (enemy.moveCd > 0) {
     return { ...enemy, moveCd: enemy.moveCd - 1 };
   }
-  const villagePosition = {
-    x: getState().village.x,
-    y: getState().village.y,
-  };
   // Get all coordinates inside village
-  const villageCoordinates = [];
-  for (let i = 0; i < getState().village.width; i++) {
-    for (let j = 0; j < getState().village.height; j++) {
-      villageCoordinates.push({ x: villagePosition.x + i, y: villagePosition.y + j });
-    }
-  }
-
-  const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, villageCoordinates, getState());
+  const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, getVillageCoordinates(), getState());
   if (!path) {
     console.error("Enemy couldn't find any path to village and is mighty confused!");
     return enemy;

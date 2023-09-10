@@ -11,3 +11,18 @@ export const renderVillage = (grid: Grid) => {
   grid.entityGrid.appendChild(villageElement);
   return villageElement;
 };
+
+export const getVillageCoordinates = () => {
+  const villagePosition = {
+    x: getState().village.x,
+    y: getState().village.y,
+  };
+  // Get all coordinates inside village
+  const villageCoordinates = [];
+  for (let i = 0; i < getState().village.width; i++) {
+    for (let j = 0; j < getState().village.height; j++) {
+      villageCoordinates.push({ x: villagePosition.x + i, y: villagePosition.y + j });
+    }
+  }
+  return villageCoordinates;
+};
