@@ -9,15 +9,15 @@ const maxY = 27;
 type Position = { x: number; y: number };
 
 // A* algorithm. See wikipedia for explanation
-export const pathfind = (startPos: Position, goalPos: Position, state: State) => {
+export const pathfind = (startPos: Position, goalPositions: Position[], state: State) => {
   const cameFrom: Record<string, Position> = {};
   const openSet = [startPos];
   const gScore = { [nodeKey(startPos)]: 0 };
-  const fScore = { [nodeKey(startPos)]: calculateHeuristicCost(startPos, goalPos) };
+  const fScore = { [nodeKey(startPos)]: calculateHeuristicCost(startPos, goalPositions) };
   while (openSet.length > 0) {
     openSet.sort((node1, node2) => fScore[nodeKey(node1)] - fScore[nodeKey(node2)]);
     const current = openSet[0];
-    if (nodeKey(current) === nodeKey(goalPos)) {
+    if (goalPositions.some((goalPosition) => nodeKey(goalPosition) === nodeKey(current))) {
       return reconstructPath(cameFrom, current);
     }
     // We sorted the array so remove the first element
@@ -33,14 +33,15 @@ export const pathfind = (startPos: Position, goalPos: Position, state: State) =>
         // This path to neighbor is better than any previous one. Record it!
         cameFrom[nodeKey(neighbor)] = current;
         gScore[nodeKey(neighbor)] = tentativeGScore;
-        fScore[nodeKey(neighbor)] = tentativeGScore + calculateHeuristicCost(neighbor, goalPos);
+        fScore[nodeKey(neighbor)] =
+          tentativeGScore + calculateHeuristicCost(neighbor, goalPositions);
         if (!openSet.find((position) => nodeKey(position) === nodeKey(neighbor))) {
           openSet.push(neighbor);
         }
       }
     }
   }
-  console.log("Couldn't find path start to goal:", startPos, goalPos);
+  console.log("Couldn't find path start to goal:", startPos, goalPositions);
   return null;
 };
 
@@ -67,8 +68,11 @@ const nodeKey = (position: Position) => {
   return `${position.x},${position.y}`;
 };
 
-const calculateHeuristicCost = (startPos: Position, goalPos: Position) => {
-  return Math.abs(startPos.x - goalPos.x) + Math.abs(startPos.y - goalPos.y);
+const calculateHeuristicCost = (startPos: Position, goalPositions: Position[]) => {
+  const goalDistances = goalPositions.map((goalPosition) => {
+    return Math.abs(startPos.x - goalPosition.x) + Math.abs(startPos.y - goalPosition.y);
+  });
+  return Math.min(...goalDistances);
 };
 
 // Get neighboring tiles
