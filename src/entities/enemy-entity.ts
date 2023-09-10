@@ -41,7 +41,15 @@ export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
     x: getState().village.x,
     y: getState().village.y,
   };
-  const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, villagePosition, getState());
+  // Get all coordinates inside village
+  const villageCoordinates = [];
+  for (let i = 0; i < getState().village.width; i++) {
+    for (let j = 0; j < getState().village.height; j++) {
+      villageCoordinates.push({ x: villagePosition.x + i, y: villagePosition.y + j });
+    }
+  }
+
+  const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, villageCoordinates, getState());
   if (!path) {
     console.error("Enemy couldn't find any path to village and is mighty confused!");
     return enemy;
