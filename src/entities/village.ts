@@ -26,3 +26,9 @@ export const getVillageCoordinates = () => {
   }
   return villageCoordinates;
 };
+
+export const isInsideVillage = (x: number, y: number): boolean => {
+  return getVillageCoordinates().some((villagePosition) => {
+    return villagePosition.x === x && villagePosition.y === y;
+  });
+};

@@ -3,10 +3,12 @@ import { initControls } from 'controller';
 import { Grid } from 'grid';
 import {
   getEnemiesState,
+  getPlayerState,
   getState,
   getSystemState,
   getTowersState,
   updateEnemiesState,
+  updatePlayerState,
   updateSystemState,
   updateTowersState,
 } from 'state';
@@ -14,6 +16,7 @@ import { isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
 import { makeTower, shootTowersTick } from './entities/tower-entity.ts';
 import { getNextSpawns, wave1 } from './waves.ts';
+import { isInsideVillage } from './entities/village.ts';
 
 export const grid = new Grid();
 
@@ -37,6 +40,16 @@ export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
   // Move enemies
   updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
+  // Deal damage if enemies are inside village
+  getEnemiesState().forEach((enemy, enemyIndex) => {
+    if (isInsideVillage(enemy.gridX, enemy.gridY)) {
+      updateEnemiesState(getEnemiesState().filter((_, eIndex) => eIndex !== enemyIndex));
+      updatePlayerState({ ...getPlayerState(), life: getPlayerState().life - enemy.stats.attack });
+      // Render UI so the value actually updates
+      renderUi(grid);
+    }
+  });
+
   // Spawn enemies
   if (getState().system.waveStarted) {
     const newEnemies = getNextSpawns(wave1, getSystemState().timer);
@@ -56,6 +69,7 @@ export const runGameSystems = () => {
       return isEnemy(entity) ? { ...entity, takingDamage: false } : entity;
     }),
   );
+
   // Shoot towers
   shootTowersTick();
 
