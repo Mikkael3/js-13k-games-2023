@@ -74,6 +74,13 @@ export const runGameSystems = () => {
   // Shoot towers
   shootTowersTick();
 
+  if (getEnemiesState().length === 0 && getSystemState().waveStarted) {
+    // Wave is over
+    updateSystemState({ ...getSystemState(), waveStarted: false });
+    console.log('Wave over');
+    renderUi(grid);
+  }
+
   const system = getSystemState();
   // Update timer
   updateSystemState({ ...system, timer: system.timer + 1 });
