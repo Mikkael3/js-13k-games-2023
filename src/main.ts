@@ -53,7 +53,7 @@ export const runGameSystems = () => {
 
   // Spawn enemies
   if (getState().system.waveStarted) {
-    const newEnemies = getNextSpawns(wave1, getSystemState().timer);
+    const newEnemies = getNextSpawns(getSystemState().wave, getSystemState().timer);
     if (newEnemies.length > 0) {
       updateEnemiesState([...getEnemiesState(), ...newEnemies]);
     }
@@ -77,6 +77,7 @@ export const runGameSystems = () => {
   if (getEnemiesState().length === 0 && getSystemState().waveStarted) {
     // Wave is over
     updateSystemState({ ...getSystemState(), waveStarted: false });
+    updateSystemState({ ...getSystemState(), wave: getSystemState().wave + 1 });
     console.log('Wave over');
     renderUi(grid);
   }
