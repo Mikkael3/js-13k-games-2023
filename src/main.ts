@@ -40,9 +40,10 @@ export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
   // Move enemies
   updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
-  // Deal damage if enemies are inside village
+  // Deal damage if enemies reach village
   getEnemiesState().forEach((enemy, enemyIndex) => {
     if (isInsideVillage(enemy.gridX, enemy.gridY)) {
+      // Remove the enemy
       updateEnemiesState(getEnemiesState().filter((_, eIndex) => eIndex !== enemyIndex));
       updatePlayerState({ ...getPlayerState(), life: getPlayerState().life - enemy.stats.attack });
       // Render UI so the value actually updates
