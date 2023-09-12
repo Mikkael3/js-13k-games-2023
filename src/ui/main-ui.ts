@@ -36,7 +36,7 @@ export const renderUi = (grid: Grid) => {
 };
 
 const renderTowerInfo = (container: HTMLDivElement, grid: Grid, tower: TowerEntity) => {
-  const updatePaths = UpdatePaths['Tower'];
+  const updatePaths = UpdatePaths[tower.name];
   updatePaths.forEach((e) => {
     if (!tower.color) return;
     const element = document.createElement('div');

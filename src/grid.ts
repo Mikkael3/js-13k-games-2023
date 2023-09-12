@@ -71,7 +71,7 @@ export class Grid {
         if (towerIndex === -1 && getUiState().activeUnit) {
           const price = UnitPrices[getUiState().activeUnit as TowerType];
           if (getPlayerState().rice >= price) {
-            newTower = makeTower(gridX, gridY);
+            newTower = makeTower(gridX, gridY, getUiState().activeUnit as TowerType);
             updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice - price });
           }
         }

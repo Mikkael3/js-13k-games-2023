@@ -28,7 +28,7 @@ export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[
 };
 
 export type TowerEntity = Entity & {
-  name: 'tower';
+  name: TowerType;
   stats: {
     attack: number;
     range: number;
@@ -38,7 +38,8 @@ export type TowerEntity = Entity & {
   targetPosition?: { x: number; y: number };
 };
 
-export const isTower = (entity: Entity): entity is TowerEntity => entity.name === 'tower';
+export const isTower = (entity: Entity): entity is TowerEntity =>
+  units.includes(entity.name as TowerType);
 
 export const renderTower = (entity: TowerEntity, element: HTMLDivElement) => {
   element.style.background = 'transparent';
@@ -89,12 +90,12 @@ export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
   updateTowersState(newTowers);
 };
 
-export const makeTower = (x: number, y: number): TowerEntity => {
+export const makeTower = (x: number, y: number, type: TowerType = 'Tower'): TowerEntity => {
   return {
     color: 'purple',
     gridX: x,
     gridY: y,
-    name: 'tower',
+    name: type,
     selected: false,
     stats: {
       // TODO temporarily does 0 damage
