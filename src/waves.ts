@@ -16,6 +16,33 @@ export type Wave = {
   }>;
 };
 
+const getLineOfEnemies = (
+  y: number,
+  fasterCount: number,
+  basicCount: number,
+  delay: number,
+): Wave['groups'] => {
+  const interval = 2;
+  return [
+    {
+      type: 'fasterEnemy',
+      x: 10,
+      y,
+      count: fasterCount,
+      interval,
+      delay: delay,
+    },
+    {
+      type: 'basicEnemy',
+      x: 10,
+      y,
+      count: basicCount,
+      interval,
+      delay: fasterCount * interval + delay,
+    },
+  ];
+};
+
 const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => EnemyEntity> = {
   basicEnemy: (x: number, y: number) => {
     return {
@@ -53,55 +80,67 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
 
 export const wave1: Wave = {
   groups: [
-    // {
-    //   type: 'basicEnemy',
-    //   x: 10,
-    //   y: 10,
-    //   count: 3,
-    //   interval: 5,
-    //   delay: 0,
-    // },
     {
       type: 'fasterEnemy',
       x: 10,
-      y: 12,
-      count: 3,
+      y: 11,
+      count: 5,
       interval: 2,
       delay: 0,
     },
-    // {
-    //   type: 'basicEnemy',
-    //   x: 10,
-    //   y: 13,
-    //   count: Infinity,
-    //   interval: 5,
-    //   delay: 20,
-    // },
+    {
+      type: 'fasterEnemy',
+      x: 10,
+      y: 17,
+      count: 5,
+      interval: 2,
+      delay: 8,
+    },
   ],
 };
 
 export const wave2: Wave = {
   groups: [
     {
-      type: 'basicEnemy',
+      type: 'fasterEnemy',
       x: 10,
-      y: 10,
-      count: 4,
+      y: 11,
+      count: 9,
       interval: 2,
       delay: 0,
     },
     {
       type: 'fasterEnemy',
       x: 10,
-      y: 15,
-      count: 4,
+      y: 17,
+      count: 9,
       interval: 2,
-      delay: 0,
+      delay: 8,
+    },
+    {
+      type: 'basicEnemy',
+      x: 10,
+      y: 11,
+      count: 1,
+      interval: 2,
+      delay: 20,
+    },
+    {
+      type: 'basicEnemy',
+      x: 10,
+      y: 17,
+      count: 1,
+      interval: 2,
+      delay: 28,
     },
   ],
 };
 
-export const waves = [wave1, wave2, wave2, wave2, wave2, wave2, wave2, wave2, wave2, wave2];
+export const wave3: Wave = {
+  groups: [...wave2.groups, ...getLineOfEnemies(7, 9, 1, 15)],
+};
+
+export const waves = [wave1, wave2, wave3];
 
 /**
  * Returns the new enemies that are spawned on this tick
