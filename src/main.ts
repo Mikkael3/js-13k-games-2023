@@ -93,7 +93,7 @@ export const runGameSystems = () => {
     getSystemState().wave >= 10
   ) {
     // game is over logic
-    renderEndScreen(grid);
+    renderEndScreen(grid, 'Invaders chased away! Victory is yours! ');
     return;
   }
 
