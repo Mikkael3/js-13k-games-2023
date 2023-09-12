@@ -2,10 +2,14 @@ import { Entity } from './entity.ts';
 import { EnemyEntity } from './enemy-entity.ts';
 import {
   getEnemiesState,
+  getPlayerState,
   getTowersState,
   updateEnemiesState,
+  updatePlayerState,
   updateTowersState,
 } from '../state.ts';
+import { renderUi } from '../ui/main-ui.ts';
+import { grid } from '../main.ts';
 
 export type TowerType = 'Peasant' | 'Tower' | 'Rice Farmer' | 'Creeper';
 export const units: Readonly<TowerType[]> = ['Peasant', 'Tower', 'Rice Farmer', 'Creeper'] as const;
@@ -32,7 +36,7 @@ export const TowerRange: { [key in TowerType]: number } = {
 };
 
 export const TowerCd: { [key in TowerType]: number } = {
-  ['Rice Farmer']: 10,
+  ['Rice Farmer']: 20,
   ['Peasant']: 2,
   ['Tower']: 2,
   ['Creeper']: 1,
@@ -93,6 +97,17 @@ export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
     updateTowersState(newTowers);
     return;
   }
+  if (tower.name === 'Rice Farmer') {
+    // Add rice to player
+    const newPlayer = getPlayerState();
+    newPlayer.rice += 50;
+    updatePlayerState(newPlayer);
+    newTowers[towerIndex] = { ...tower, shootCd: tower.stats.cd };
+    updateTowersState(newTowers);
+    renderUi(grid);
+    return;
+  }
+
   const enemies = getEnemiesState();
   const shotEnemyIndex = enemies.findIndex((enemy) => {
     // Distance is grid distance. Difference of X and Y coordinates added together
