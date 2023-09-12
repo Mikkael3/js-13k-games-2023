@@ -27,6 +27,13 @@ export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[
   ['Creeper']: [],
 };
 
+const sprites = {
+  ['Peasant']: `url('/t2.png')`,
+  ['Tower']: `url('/t1.png')`,
+  ['Rice Farmer']: `url('/t3.png')`,
+  ['Creeper']: `url('/t4.png')`,
+};
+
 export type TowerEntity = Entity & {
   name: TowerType;
   stats: {
@@ -43,7 +50,7 @@ export const isTower = (entity: Entity): entity is TowerEntity =>
 
 export const renderTower = (entity: TowerEntity, element: HTMLDivElement) => {
   element.style.background = 'transparent';
-  element.style.backgroundImage = `url('/t1.png')`;
+  element.style.backgroundImage = sprites[entity.name];
   element.style.backgroundSize = 'cover';
   if (entity.selected) element.style.border = '1px solid gold';
 };
