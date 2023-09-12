@@ -21,6 +21,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
     return {
       name: 'enemy',
       color: 'red',
+      type: 'basicEnemy',
       gridX: x,
       gridY: y,
       stats: {
@@ -36,6 +37,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
     return {
       name: 'enemy',
       color: 'hotpink',
+      type: 'fasterEnemy',
       gridX: x,
       gridY: y,
       stats: {

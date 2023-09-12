@@ -6,6 +6,7 @@ import { getVillageCoordinates } from './village.ts';
 export type EnemyEntity = Entity & {
   name: 'enemy';
   stats: Stats;
+  type: string;
   // Is it taking damage this tick
   takingDamage?: boolean;
   // Cooldown on moving. If it's 0 the unit can move. It's set to 'speed' value after moving
@@ -63,6 +64,7 @@ export const createEnemyAt = (x: number, y: number) => {
     gridX: x,
     gridY: y,
     name: 'enemy',
+    type: 'fasterEnemy',
     stats: {
       hp: 10,
       attack: 1,
