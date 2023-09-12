@@ -1,5 +1,4 @@
 import 'globals.ts';
-import { initControls } from 'controller';
 import { Grid } from 'grid';
 import {
   getEnemiesState,
@@ -138,6 +137,5 @@ export const runGameLoop = async () => {
 };
 
 renderUi(grid);
-initControls();
 // initEntities();
 runGameLoop();
