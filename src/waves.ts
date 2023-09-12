@@ -21,8 +21,8 @@ const getLineOfEnemies = (
   fasterCount: number,
   basicCount: number,
   delay: number,
+  interval = 2,
 ): Wave['groups'] => {
-  const interval = 2;
   return [
     {
       type: 'fasterEnemy',
@@ -136,11 +136,35 @@ export const wave2: Wave = {
   ],
 };
 
-export const wave3: Wave = {
+const wave3: Wave = {
   groups: [...wave2.groups, ...getLineOfEnemies(7, 9, 1, 15)],
 };
 
-export const waves = [wave1, wave2, wave3];
+const wave4: Wave = {
+  groups: [
+    ...getLineOfEnemies(7, 10, 0, 15),
+    ...getLineOfEnemies(7, 0, 3, 0, 4),
+    ...getLineOfEnemies(11, 11, 0, 17),
+    ...getLineOfEnemies(11, 0, 4, 2, 4),
+    ...getLineOfEnemies(17, 10, 0, 15),
+    ...getLineOfEnemies(17, 0, 3, 0, 4),
+  ],
+};
+
+const wave5: Wave = {
+  groups: [
+    ...getLineOfEnemies(7, 9, 0, 15),
+    ...getLineOfEnemies(7, 0, 3, 0, 4),
+    ...getLineOfEnemies(11, 9, 0, 17),
+    ...getLineOfEnemies(11, 0, 4, 2, 4),
+    ...getLineOfEnemies(17, 9, 0, 15),
+    ...getLineOfEnemies(17, 0, 4, 0, 4),
+    ...getLineOfEnemies(23, 9, 0, 15),
+    ...getLineOfEnemies(23, 0, 3, 0, 4),
+  ],
+};
+
+export const waves = [wave1, wave2, wave3, wave4, wave5];
 
 /**
  * Returns the new enemies that are spawned on this tick
