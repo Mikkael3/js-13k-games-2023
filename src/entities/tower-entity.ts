@@ -38,16 +38,22 @@ export const TowerRange: { [key in TowerType]: number } = {
 export const TowerCd: { [key in TowerType]: number } = {
   ['Rice Farmer']: 20,
   ['Peasant']: 2,
-  ['Tower']: 2,
+  ['Tower']: 4,
   ['Creeper']: 1,
 };
 
-export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[] } = {
+export const UpdatePaths: {
+  [key in TowerType]: {
+    name: string;
+    price: number;
+    stats: { attack: number; range: number; cd: number };
+  }[];
+} = {
   ['Rice Farmer']: [],
   ['Peasant']: [],
   ['Tower']: [
-    { name: 'Wooden pagoda', price: 300 },
-    { name: 'Stone pagoda', price: 500 },
+    { name: 'Wooden pagoda', price: 300, stats: { attack: 2, range: 3, cd: 2 } },
+    { name: 'Stone pagoda', price: 500, stats: { attack: 4, range: 3, cd: 3 } },
   ],
   ['Creeper']: [],
 };
@@ -68,6 +74,7 @@ export type TowerEntity = Entity & {
   };
   selected: boolean;
   shootCd: number;
+  class?: string;
   // Position of target that tower is shooting at
   targetPosition?: { x: number; y: number };
 };

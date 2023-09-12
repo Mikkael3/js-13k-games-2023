@@ -1,10 +1,11 @@
-import { TowerEntity, UnitPrices, UpdatePaths, units } from 'entities/tower-entity';
+import { TowerEntity, UnitPrices, UpdatePaths, units, makeTower } from 'entities/tower-entity';
 import { Grid } from 'grid';
 import {
   getPlayerState,
   getSystemState,
   getTowersState,
   getUiState,
+  updatePlayerState,
   updateSystemState,
   updateTowersState,
   updateUiState,
@@ -37,24 +38,33 @@ export const renderUi = (grid: Grid) => {
 
 const renderTowerInfo = (container: HTMLDivElement, grid: Grid, tower: TowerEntity) => {
   const updatePaths = UpdatePaths[tower.name];
-  updatePaths.forEach((e) => {
-    if (!tower.color) return;
-    const element = document.createElement('div');
-    element.style.backgroundColor = 'gray';
-    element.style.width = `100%`;
-    element.style.cursor = 'pointer';
-    element.textContent = e.name;
-    const price = document.createElement('div');
-    price.textContent = `Rice: ${e.price}`;
-    element.appendChild(price);
-    element.onclick = () => {
-      const state = getUiState();
-      updateUiState(state);
-      renderUi(grid);
-    };
-    container.appendChild(element);
-  });
-
+  if (!tower.class) {
+    updatePaths.forEach((e) => {
+      if (!tower.color) return;
+      const element = document.createElement('div');
+      element.style.backgroundColor = 'gray';
+      element.style.width = `100%`;
+      element.style.cursor = 'pointer';
+      element.textContent = e.name;
+      const price = document.createElement('div');
+      price.textContent = `Rice: ${e.price}`;
+      element.appendChild(price);
+      element.onclick = () => {
+        const state = getUiState();
+        updateUiState(state);
+        const newTowers = getTowersState().map((t) => {
+          if (t.selected && getPlayerState().rice >= e.price) {
+            updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice - e.price });
+            return { ...t, stats: e.stats, class: e.name, selected: false };
+          }
+          return t;
+        });
+        updateTowersState(newTowers);
+        renderUi(grid);
+      };
+      container.appendChild(element);
+    });
+  }
   const element = document.createElement('div');
   element.style.backgroundColor = 'blue';
   element.style.color = 'white';
