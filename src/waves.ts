@@ -164,7 +164,50 @@ const wave5: Wave = {
   ],
 };
 
-export const waves = [wave1, wave2, wave3, wave4, wave5];
+const wave6: Wave = {
+  groups: [
+    ...getLineOfEnemies(7, 9, 0, 15),
+    ...getLineOfEnemies(7, 0, 6, 0, 4),
+    ...getLineOfEnemies(11, 8, 0, 17),
+    ...getLineOfEnemies(11, 0, 7, 2, 4),
+    ...getLineOfEnemies(17, 8, 0, 15),
+    ...getLineOfEnemies(17, 0, 7, 0, 4),
+    ...getLineOfEnemies(23, 9, 0, 15),
+    ...getLineOfEnemies(23, 0, 6, 0, 4),
+  ],
+};
+
+const wave7: Wave = {
+  groups: [
+    ...getLineOfEnemies(4, 10, 0, 15),
+    ...getLineOfEnemies(4, 0, 4, 0, 4),
+    ...getLineOfEnemies(7, 10, 0, 15),
+    ...getLineOfEnemies(7, 0, 4, 0, 4),
+    ...getLineOfEnemies(11, 10, 0, 17),
+    ...getLineOfEnemies(11, 0, 4, 2, 4),
+    ...getLineOfEnemies(17, 10, 0, 15),
+    ...getLineOfEnemies(17, 0, 4, 0, 4),
+    ...getLineOfEnemies(23, 10, 0, 15),
+    ...getLineOfEnemies(23, 0, 4, 0, 4),
+  ],
+};
+
+const wave8: Wave = {
+  groups: [
+    ...getLineOfEnemies(4, 10, 0, 15),
+    ...getLineOfEnemies(4, 0, 6, 0, 4),
+    ...getLineOfEnemies(7, 10, 0, 15),
+    ...getLineOfEnemies(7, 0, 6, 0, 4),
+    ...getLineOfEnemies(11, 10, 0, 17),
+    ...getLineOfEnemies(11, 0, 6, 2, 4),
+    ...getLineOfEnemies(17, 10, 0, 15),
+    ...getLineOfEnemies(17, 0, 6, 0, 4),
+    ...getLineOfEnemies(23, 10, 0, 15),
+    ...getLineOfEnemies(23, 0, 6, 0, 4),
+  ],
+};
+
+export const waves = [wave1, wave2, wave3, wave4, wave5, wave6, wave7, wave8];
 
 /**
  * Returns the new enemies that are spawned on this tick
