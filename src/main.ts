@@ -24,7 +24,19 @@ export const grid = new Grid();
 export const initEntities = () => {
   const towers1 = [...Array(8)].map((_, index) => makeTower(18, 12 + 1 * index));
   const towers2 = [...Array(7)].map((_, index) => makeTower(25, 8 + 1 * index));
+  almostSurroundVillageTest();
   updateTowersState([...getTowersState(), ...towers1, ...towers2]);
+};
+
+// TODO for testing
+export const almostSurroundVillageTest = () => {
+  // make towers around village almost surrounding it
+  const towers3 = [...Array(8)].map((_, index) => makeTower(37, 10 + 1 * index));
+  updateTowersState([...getTowersState(), ...towers3]);
+  const towers4 = [...Array(5)].map((_, index) => makeTower(38 + 1 * index, 9));
+  updateTowersState([...getTowersState(), ...towers4]);
+  const towers5 = [...Array(5)].map((_, index) => makeTower(38 + 1 * index, 19));
+  updateTowersState([...getTowersState(), ...towers5]);
 };
 
 const sleep = async () => {

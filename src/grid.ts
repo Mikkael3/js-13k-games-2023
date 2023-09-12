@@ -4,6 +4,7 @@ import { map } from 'maps';
 import {
   getEnemiesState,
   getPlayerState,
+  getState,
   getTowersState,
   getUiState,
   updatePlayerState,
@@ -11,7 +12,8 @@ import {
   updateUiState,
 } from 'state';
 import { renderUi } from 'ui/main-ui';
-import { renderVillage } from './entities/village.ts';
+import { getVillageCoordinates, renderVillage } from './entities/village.ts';
+import { pathfind } from './pathfinding.ts';
 
 export class Grid {
   public bgGrid: HTMLDivElement;
@@ -71,11 +73,30 @@ export class Grid {
         if (towerIndex === -1 && getUiState().activeUnit) {
           const price = UnitPrices[getUiState().activeUnit as TowerType];
           if (getPlayerState().rice >= price) {
+            // Create new tower
             newTower = makeTower(gridX, gridY, getUiState().activeUnit as TowerType);
+            // Check that tower does not block the route to village
+            const path = pathfind(
+              // Start position is on the coast in the middle
+              { x: 14, y: 13 },
+              getVillageCoordinates(),
+              { ...getState(), towers: [...getTowersState(), newTower] },
+            );
+            if (!path) {
+              console.log("Couldn't find path to village");
+              updateUiState({ ...getUiState(), activeUnit: null });
+              renderUi(grid);
+              return;
+            }
+            if (gridX < 12) {
+              console.log('Tried to build on water');
+              updateUiState({ ...getUiState(), activeUnit: null });
+              renderUi(grid);
+              return;
+            }
             updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice - price });
           }
         }
-
         updateUiState({ ...getUiState(), activeUnit: null });
         renderUi(grid);
       }
