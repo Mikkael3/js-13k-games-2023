@@ -99,7 +99,7 @@ export const wave2: Wave = {
   ],
 };
 
-export const waves = [wave1, wave2];
+export const waves = [wave1, wave2, wave2, wave2, wave2, wave2, wave2, wave2, wave2, wave2];
 
 /**
  * Returns the new enemies that are spawned on this tick

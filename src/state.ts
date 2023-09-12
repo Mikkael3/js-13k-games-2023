@@ -28,10 +28,10 @@ export type State = {
   village: Village;
 };
 
-let state: State = {
+const defaultState = {
   system: {
     timer: 0,
-    wave: 1,
+    wave: 10,
     waveStarted: false,
   },
   player: {
@@ -51,6 +51,8 @@ let state: State = {
     width: 3,
   },
 };
+
+let state: State = { ...defaultState };
 
 // get fresh and juicy copy of state
 export const getState = () => JSON.parse(JSON.stringify(state)) as State;
@@ -100,3 +102,7 @@ export const updatePlayerState = (newState: PlayerState) =>
     ...getState(),
     player: newState,
   });
+
+export const resetState = () => {
+  updateState({ ...defaultState });
+};

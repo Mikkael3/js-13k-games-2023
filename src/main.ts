@@ -15,8 +15,9 @@ import {
 import { isEnemy, moveEnemy } from './entities/enemy-entity.ts';
 import { renderUi } from './ui/main-ui.ts';
 import { makeTower, shootTowersTick } from './entities/tower-entity.ts';
-import { getNextSpawns, wave1 } from './waves.ts';
+import { getNextSpawns } from './waves.ts';
 import { isInsideVillage } from './entities/village.ts';
+import { renderEndScreen } from 'ui/end-screen.ts';
 
 export const grid = new Grid();
 
@@ -74,12 +75,26 @@ export const runGameSystems = () => {
   // Shoot towers
   shootTowersTick();
 
-  if (getEnemiesState().length === 0 && getSystemState().waveStarted) {
+  if (
+    getEnemiesState().length === 0 &&
+    getSystemState().waveStarted &&
+    getSystemState().wave < 10
+  ) {
     // Wave is over
     updateSystemState({ ...getSystemState(), waveStarted: false });
     updateSystemState({ ...getSystemState(), wave: getSystemState().wave + 1 });
     console.log('Wave over');
     renderUi(grid);
+  }
+
+  if (
+    getEnemiesState().length === 0 &&
+    getSystemState().waveStarted &&
+    getSystemState().wave >= 10
+  ) {
+    // game is over logic
+    renderEndScreen(grid);
+    return;
   }
 
   const system = getSystemState();
