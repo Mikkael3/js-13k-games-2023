@@ -39,6 +39,12 @@ const sleep = async () => {
  */
 export const runGameSystems = () => {
   if (!getSystemState().waveStarted) return;
+  if (getPlayerState().life <= 0) {
+    updateSystemState({ ...getSystemState(), waveStarted: false });
+    renderEndScreen(grid, 'You lost. Your country is ruined and burned!');
+    return;
+  }
+
   // Move enemies
   updateEnemiesState(getEnemiesState().map((e) => moveEnemy(e)));
   // Deal damage if enemies reach village
@@ -93,6 +99,7 @@ export const runGameSystems = () => {
     getSystemState().wave >= 10
   ) {
     // game is over logic
+    updateSystemState({ ...getSystemState(), waveStarted: false });
     renderEndScreen(grid, 'Invaders chased away! Victory is yours! ');
     return;
   }
