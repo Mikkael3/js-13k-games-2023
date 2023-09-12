@@ -83,7 +83,7 @@ export const wave1: Wave = {
 export const wave2: Wave = {
   groups: [
     {
-      type: 'fasterEnemy',
+      type: 'basicEnemy',
       x: 10,
       y: 10,
       count: 4,
