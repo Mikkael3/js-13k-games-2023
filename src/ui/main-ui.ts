@@ -1,4 +1,4 @@
-import { TowerEntity, UnitPrices, UpdatePaths, units, makeTower } from 'entities/tower-entity';
+import { TowerEntity, UnitPrices, UpdatePaths, units } from 'entities/tower-entity';
 import { Grid } from 'grid';
 import {
   getPlayerState,

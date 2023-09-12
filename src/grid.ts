@@ -23,6 +23,8 @@ export class Grid {
   public colCount = 48;
   public rowCount = 27;
   public tileSize = 32;
+  public mountainLInes = [20, 25, 30, 35];
+  public mountainLines2 = [1, 27];
 
   constructor() {
     this.bgGrid = document.createElement('div');
@@ -68,7 +70,11 @@ export class Grid {
 
       let newTower: TowerEntity | null = null;
 
-      if (gridX < 42) {
+      if (
+        gridX < 42 &&
+        !this.mountainLInes.includes(gridX) &&
+        !this.mountainLines2.includes(gridY)
+      ) {
         if (towerIndex === -1 && getUiState().activeUnit) {
           const price = UnitPrices[getUiState().activeUnit as TowerType];
           if (getPlayerState().rice >= price) {

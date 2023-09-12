@@ -24,15 +24,15 @@ export const UnitPrices: { [key in TowerType]: number } = {
 export const AttackPower: { [key in TowerType]: number } = {
   ['Rice Farmer']: 0,
   ['Peasant']: 1,
-  ['Tower']: 2,
-  ['Creeper']: 1,
+  ['Tower']: 3,
+  ['Creeper']: 2,
 };
 
 export const TowerRange: { [key in TowerType]: number } = {
   ['Rice Farmer']: 0,
   ['Peasant']: 1,
-  ['Tower']: 3,
-  ['Creeper']: 2,
+  ['Tower']: 6,
+  ['Creeper']: 4,
 };
 
 export const TowerCd: { [key in TowerType]: number } = {
@@ -56,11 +56,8 @@ export const UpdatePaths: {
     { name: 'Samurai', price: 400, stats: { attack: 4, range: 2, cd: 3 } },
     { name: 'Archer', price: 350, stats: { attack: 1, range: 5, cd: 3 } },
   ],
-  ['Tower']: [
-    { name: 'Wooden pagoda', price: 300, stats: { attack: 2, range: 3, cd: 2 } },
-    { name: 'Stone pagoda', price: 500, stats: { attack: 4, range: 3, cd: 3 } },
-  ],
-  ['Creeper']: [{ name: 'Ninja', price: 350, stats: { attack: 1, range: 2, cd: 0 } }],
+  ['Tower']: [{ name: 'Stone pagoda', price: 600, stats: { attack: 8, range: 7, cd: 3 } }],
+  ['Creeper']: [{ name: 'Ninja', price: 350, stats: { attack: 2, range: 4, cd: 0 } }],
 };
 
 const sprites = {
