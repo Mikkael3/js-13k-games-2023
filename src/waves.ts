@@ -207,7 +207,35 @@ const wave8: Wave = {
   ],
 };
 
-export const waves = [wave1, wave2, wave3, wave4, wave5, wave6, wave7, wave8];
+const wave9: Wave = {
+  groups: [
+    ...getLineOfEnemies(4, 11, 0, 15),
+    ...getLineOfEnemies(4, 0, 4, 0, 4),
+    ...getLineOfEnemies(7, 11, 0, 15),
+    ...getLineOfEnemies(7, 0, 4, 0, 4),
+    ...getLineOfEnemies(11, 11, 0, 17),
+    ...getLineOfEnemies(11, 0, 4, 2, 4),
+    ...getLineOfEnemies(17, 11, 0, 15),
+    ...getLineOfEnemies(17, 0, 4, 0, 4),
+    ...getLineOfEnemies(20, 11, 0, 15),
+    ...getLineOfEnemies(20, 0, 4, 0, 4),
+    ...getLineOfEnemies(23, 11, 0, 15),
+    ...getLineOfEnemies(23, 0, 4, 0, 4),
+  ],
+};
+
+const wave10: Wave = {
+  groups: [
+    ...getLineOfEnemies(4, 0, 16, 0, 4),
+    ...getLineOfEnemies(7, 0, 17, 0, 4),
+    ...getLineOfEnemies(11, 0, 17, 2, 4),
+    ...getLineOfEnemies(17, 0, 17, 0, 4),
+    ...getLineOfEnemies(20, 0, 17, 0, 4),
+    ...getLineOfEnemies(23, 0, 16, 0, 4),
+  ],
+};
+
+export const waves = [wave1, wave2, wave3, wave4, wave5, wave6, wave7, wave8, wave9, wave10];
 
 /**
  * Returns the new enemies that are spawned on this tick

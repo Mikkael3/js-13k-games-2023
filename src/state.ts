@@ -31,7 +31,7 @@ export type State = {
 const defaultState = {
   system: {
     timer: 0,
-    wave: 7,
+    wave: 1,
     waveStarted: false,
   },
   player: {
