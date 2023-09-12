@@ -36,7 +36,7 @@ const defaultState = {
   },
   player: {
     rice: 1000,
-    life: 100,
+    life: 50,
   },
   uiState: {
     activeUnit: null,

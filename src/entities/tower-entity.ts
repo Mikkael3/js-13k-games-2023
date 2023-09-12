@@ -60,7 +60,7 @@ export const UpdatePaths: {
     { name: 'Wooden pagoda', price: 300, stats: { attack: 2, range: 3, cd: 2 } },
     { name: 'Stone pagoda', price: 500, stats: { attack: 4, range: 3, cd: 3 } },
   ],
-  ['Creeper']: [],
+  ['Creeper']: [{ name: 'Ninja', price: 350, stats: { attack: 1, range: 2, cd: 0 } }],
 };
 
 const sprites = {
