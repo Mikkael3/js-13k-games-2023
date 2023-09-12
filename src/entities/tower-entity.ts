@@ -27,8 +27,15 @@ export const AttackPower: { [key in TowerType]: number } = {
 export const TowerRange: { [key in TowerType]: number } = {
   ['Rice Farmer']: 0,
   ['Peasant']: 1,
-  ['Tower']: 2,
+  ['Tower']: 3,
   ['Creeper']: 2,
+};
+
+export const TowerCd: { [key in TowerType]: number } = {
+  ['Rice Farmer']: 10,
+  ['Peasant']: 2,
+  ['Tower']: 2,
+  ['Creeper']: 1,
 };
 
 export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[] } = {
@@ -53,8 +60,10 @@ export type TowerEntity = Entity & {
   stats: {
     attack: number;
     range: number;
+    cd: number;
   };
   selected: boolean;
+  shootCd: number;
   // Position of target that tower is shooting at
   targetPosition?: { x: number; y: number };
 };
@@ -78,19 +87,25 @@ export const shootTowersTick = () => {
 // Shoots and damages enemy in range (if any).
 // Updates entity state of shot enemy and tower.
 export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
+  const newTowers = getTowersState();
+  if (tower.shootCd > 0) {
+    newTowers[towerIndex] = { ...tower, shootCd: tower.shootCd - 1 };
+    updateTowersState(newTowers);
+    return;
+  }
   const enemies = getEnemiesState();
   const shotEnemyIndex = enemies.findIndex((enemy) => {
     // Distance is grid distance. Difference of X and Y coordinates added together
     const distance = Math.abs(enemy.gridX - tower.gridX) + Math.abs(enemy.gridY - tower.gridY);
     return distance <= tower.stats.range && enemy.stats.hp > 0;
   });
-  const newTowers = getTowersState();
   const newEnemies = getEnemiesState();
   if (shotEnemyIndex > -1) {
     const shotEnemy = enemies[shotEnemyIndex];
     const newTower: TowerEntity = {
       ...tower,
       targetPosition: { x: shotEnemy.gridX, y: shotEnemy.gridY },
+      shootCd: tower.stats.cd,
     };
     newTowers[towerIndex] = newTower;
     const newEnemy: EnemyEntity = {
@@ -119,9 +134,10 @@ export const makeTower = (x: number, y: number, type: TowerType = 'Tower'): Towe
     name: type,
     selected: false,
     stats: {
-      // TODO temporarily does 0 damage
       attack: AttackPower[type],
       range: TowerRange[type],
+      cd: TowerCd[type],
     },
+    shootCd: 0,
   };
 };

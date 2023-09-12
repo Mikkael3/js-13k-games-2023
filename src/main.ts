@@ -139,5 +139,5 @@ export const runGameLoop = async () => {
 
 renderUi(grid);
 initControls();
-initEntities();
+// initEntities();
 runGameLoop();
