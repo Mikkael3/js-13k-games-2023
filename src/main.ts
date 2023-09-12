@@ -77,10 +77,16 @@ export const runGameSystems = () => {
       updateEnemiesState([...getEnemiesState(), ...newEnemies]);
     }
   }
-  // Remove enemies if they leave the grid
+  // Remove enemies if they die
   updateEnemiesState(
-    getEnemiesState().filter((entity) => {
-      return entity.gridX < grid.colCount;
+    getEnemiesState().filter((enemy) => {
+      if (enemy.stats.hp <= 0) {
+        const enemyBounty = enemy.type === 'fasterEnemy' ? 15 : 30;
+        updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice + enemyBounty });
+        renderUi(grid);
+        return false;
+      }
+      return true;
     }),
   );
   // Reset enemies as not taking damage

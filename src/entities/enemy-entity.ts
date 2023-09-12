@@ -38,7 +38,6 @@ export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
   if (enemy.moveCd > 0) {
     return { ...enemy, moveCd: enemy.moveCd - 1 };
   }
-  // Get all coordinates inside village
   const path = pathfind({ x: enemy.gridX, y: enemy.gridY }, getVillageCoordinates(), getState());
   if (!path) {
     console.error("Enemy couldn't find any path to village and is mighty confused!");

@@ -17,6 +17,20 @@ export const UnitPrices: { [key in TowerType]: number } = {
   ['Creeper']: 200,
 };
 
+export const AttackPower: { [key in TowerType]: number } = {
+  ['Rice Farmer']: 0,
+  ['Peasant']: 1,
+  ['Tower']: 2,
+  ['Creeper']: 1,
+};
+
+export const TowerRange: { [key in TowerType]: number } = {
+  ['Rice Farmer']: 0,
+  ['Peasant']: 1,
+  ['Tower']: 2,
+  ['Creeper']: 2,
+};
+
 export const UpdatePaths: { [key in TowerType]: { name: string; price: number }[] } = {
   ['Rice Farmer']: [],
   ['Peasant']: [],
@@ -106,8 +120,8 @@ export const makeTower = (x: number, y: number, type: TowerType = 'Tower'): Towe
     selected: false,
     stats: {
       // TODO temporarily does 0 damage
-      attack: 0,
-      range: 2,
+      attack: AttackPower[type],
+      range: TowerRange[type],
     },
   };
 };

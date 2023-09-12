@@ -52,7 +52,7 @@ const defaultState = {
   },
 };
 
-let state: State = { ...defaultState };
+let state: State = JSON.parse(JSON.stringify(defaultState)) as State;
 
 // get fresh and juicy copy of state
 export const getState = () => JSON.parse(JSON.stringify(state)) as State;
@@ -104,5 +104,5 @@ export const updatePlayerState = (newState: PlayerState) =>
   });
 
 export const resetState = () => {
-  updateState({ ...defaultState });
+  updateState(JSON.parse(JSON.stringify(defaultState)) as State);
 };
