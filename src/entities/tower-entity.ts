@@ -49,8 +49,13 @@ export const UpdatePaths: {
     stats: { attack: number; range: number; cd: number };
   }[];
 } = {
-  ['Rice Farmer']: [],
-  ['Peasant']: [],
+  ['Rice Farmer']: [
+    { name: 'Rice plantation', price: 800, stats: { attack: 0, range: 0, cd: 20 } },
+  ],
+  ['Peasant']: [
+    { name: 'Samurai', price: 400, stats: { attack: 4, range: 2, cd: 3 } },
+    { name: 'Archer', price: 350, stats: { attack: 1, range: 5, cd: 3 } },
+  ],
   ['Tower']: [
     { name: 'Wooden pagoda', price: 300, stats: { attack: 2, range: 3, cd: 2 } },
     { name: 'Stone pagoda', price: 500, stats: { attack: 4, range: 3, cd: 3 } },
@@ -107,7 +112,7 @@ export const shootTargetInRange = (tower: TowerEntity, towerIndex: number) => {
   if (tower.name === 'Rice Farmer') {
     // Add rice to player
     const newPlayer = getPlayerState();
-    newPlayer.rice += 50;
+    newPlayer.rice += tower.class ? 100 : 50;
     updatePlayerState(newPlayer);
     newTowers[towerIndex] = { ...tower, shootCd: tower.stats.cd };
     updateTowersState(newTowers);
