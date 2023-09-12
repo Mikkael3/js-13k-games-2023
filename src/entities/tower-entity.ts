@@ -41,9 +41,9 @@ export type TowerEntity = Entity & {
 export const isTower = (entity: Entity): entity is TowerEntity => entity.name === 'tower';
 
 export const renderTower = (entity: TowerEntity, element: HTMLDivElement) => {
-  if (entity.targetPosition) {
-    element.style.backgroundColor = 'white';
-  }
+  element.style.background = 'transparent';
+  element.style.backgroundImage = `url('/t1.png')`;
+  element.style.backgroundSize = 'cover';
   if (entity.selected) element.style.border = '1px solid gold';
 };
 
