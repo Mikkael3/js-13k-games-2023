@@ -25,16 +25,6 @@ const actions: Action[] = [
   },
 ];
 
-const waveActions: Action[] = [
-  {
-    name: 'Use Skill',
-    handler: (grid: Grid) => () => {
-      console.log(grid);
-      alert(getSystemState().wave);
-    },
-  },
-];
-
 export const renderUi = (grid: Grid) => {
   grid.uiHtmlGrid.innerHTML = '';
   const uiContainer = renderUiContainer(grid);
@@ -129,7 +119,9 @@ const renderUnits = (container: HTMLDivElement, grid: Grid) => {
 };
 
 const renderActions = (container: HTMLDivElement, grid: Grid) => {
-  const currentActions = getSystemState().waveStarted ? waveActions : actions;
+  if (getSystemState().waveStarted) return;
+
+  const currentActions = actions;
 
   currentActions.forEach((e) => {
     const element = document.createElement('div');
