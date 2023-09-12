@@ -64,7 +64,6 @@ export class Grid {
       const towerIndex = getTowersState().findIndex(
         (tower) => tower.gridX === gridX && tower.gridY === gridY,
       );
-
       if (gridX > 41) return;
 
       let newTower: TowerEntity | null = null;
@@ -97,7 +96,7 @@ export class Grid {
             updatePlayerState({ ...getPlayerState(), rice: getPlayerState().rice - price });
           }
         }
-        updateUiState({ ...getUiState(), activeUnit: null });
+        updateUiState({ ...getUiState(), activeUnit: !newTower ? null : getUiState().activeUnit });
         renderUi(grid);
       }
 

@@ -104,6 +104,10 @@ export const runGameSystems = () => {
     getSystemState().wave < 10
   ) {
     // Wave is over
+    updatePlayerState({
+      ...getPlayerState(),
+      rice: getPlayerState().rice + 100 * getSystemState().wave,
+    });
     updateSystemState({ ...getSystemState(), waveStarted: false });
     updateSystemState({ ...getSystemState(), wave: getSystemState().wave + 1 });
     console.log('Wave over');

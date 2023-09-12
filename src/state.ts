@@ -35,7 +35,7 @@ const defaultState = {
     waveStarted: false,
   },
   player: {
-    rice: 1000,
+    rice: 2000,
     life: 50,
   },
   uiState: {
