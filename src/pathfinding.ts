@@ -2,7 +2,7 @@ import { State } from './state.ts';
 
 // TODO Use better game area limits.
 const minX = 10;
-const maxX = 42;
+const maxX = 41;
 const minY = 1;
 const maxY = 27;
 

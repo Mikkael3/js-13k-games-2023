@@ -37,7 +37,7 @@ export const TowerRange: { [key in TowerType]: number } = {
 
 export const TowerCd: { [key in TowerType]: number } = {
   ['Rice Farmer']: 20,
-  ['Peasant']: 2,
+  ['Peasant']: 4,
   ['Tower']: 4,
   ['Creeper']: 1,
 };
