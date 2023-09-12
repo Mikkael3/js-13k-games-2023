@@ -16,7 +16,8 @@ export const isEnemy = (entity: Entity): entity is EnemyEntity => entity.name ==
 
 export const renderEnemy = (entity: EnemyEntity, element: HTMLDivElement) => {
   element.style.background = 'transparent';
-  element.style.backgroundImage = `url('/e1.png')`;
+  element.style.backgroundImage =
+    entity.type === 'fasterEnemy' ? `url('/e1.png')` : `url('/e2.png')`;
   element.style.backgroundSize = 'cover';
   if (entity.takingDamage) {
     element.style.backgroundColor = 'orange';
