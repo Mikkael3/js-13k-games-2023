@@ -61,10 +61,10 @@ export const UpdatePaths: {
 };
 
 const sprites = {
-  ['Peasant']: `url('/t2.png')`,
-  ['Tower']: `url('/t1.png')`,
-  ['Rice Farmer']: `url('/t3.png')`,
-  ['Creeper']: `url('/t4.png')`,
+  ['Peasant']: `url('./t2.png')`,
+  ['Tower']: `url('./t1.png')`,
+  ['Rice Farmer']: `url('./t3.png')`,
+  ['Creeper']: `url('./t4.png')`,
 };
 
 export type TowerEntity = Entity & {

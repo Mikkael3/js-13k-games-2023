@@ -8,7 +8,7 @@ export const renderVillage = (grid: Grid) => {
     village.x + village.width
   }`;
   element.style.background = 'transparent';
-  element.style.backgroundImage = "url('/v.png')";
+  element.style.backgroundImage = "url('./v.png')";
   element.style.backgroundSize = '32px';
   grid.entityGrid.appendChild(element);
   return element;
