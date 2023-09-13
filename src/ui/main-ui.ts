@@ -1,4 +1,12 @@
-import { TowerEntity, UnitPrices, UpdatePaths, units } from 'entities/tower-entity';
+import {
+  AttackPower,
+  TowerCd,
+  TowerEntity,
+  TowerRange,
+  UnitPrices,
+  UpdatePaths,
+  units,
+} from 'entities/tower-entity';
 import { Grid } from 'grid';
 import {
   getPlayerState,
@@ -116,7 +124,8 @@ const renderUnits = (container: HTMLDivElement, grid: Grid) => {
     element.style.cursor = 'pointer';
     element.textContent = e;
     const price = document.createElement('div');
-    price.textContent = `Rice: ${UnitPrices[e]}`;
+    price.style.whiteSpace = 'break-spaces';
+    price.textContent = `Rice: ${UnitPrices[e]}\n\nAttack:${AttackPower[e]}\nRange:${TowerRange[e]}\nCoolDown:${TowerCd[e]}`;
     element.appendChild(price);
     element.onclick = () => {
       const state = getUiState();
