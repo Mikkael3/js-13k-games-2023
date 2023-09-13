@@ -68,7 +68,7 @@ const enemyCreatorByEnemyType: Record<EnemyType, (x: number, y: number) => Enemy
       gridX: x,
       gridY: y,
       stats: {
-        hp: 2,
+        hp: 3,
         attack: 1,
         speed: 0,
         defence: 1,

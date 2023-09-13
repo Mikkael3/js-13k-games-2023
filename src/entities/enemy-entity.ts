@@ -56,21 +56,3 @@ export const moveEnemy = (enemy: EnemyEntity): EnemyEntity => {
     moveCd: enemy.stats.speed,
   };
 };
-
-export const createEnemyAt = (x: number, y: number) => {
-  const enemy: EnemyEntity = {
-    color: 'red',
-    gridX: x,
-    gridY: y,
-    name: 'enemy',
-    type: 'fasterEnemy',
-    stats: {
-      hp: 10,
-      attack: 1,
-      defence: 1,
-      speed: 0,
-    },
-    moveCd: 0,
-  };
-  return enemy;
-};
