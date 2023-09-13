@@ -55,7 +55,8 @@ const renderTowerInfo = (container: HTMLDivElement, grid: Grid, tower: TowerEnti
       element.style.cursor = 'pointer';
       element.textContent = e.name;
       const price = document.createElement('div');
-      price.textContent = `Rice: ${e.price}`;
+      price.style.whiteSpace = 'break-spaces';
+      price.textContent = `Rice: ${e.price}\n\nAttack:${e.stats.attack}\nRange:${e.stats.range}\nCoolDown:${e.stats.cd}`;
       element.appendChild(price);
       element.onclick = () => {
         const state = getUiState();
