@@ -51,7 +51,7 @@ const sleep = async () => {
  */
 export const runGameSystems = () => {
   if (!getSystemState().waveStarted) {
-    if (getPlayerState().life !== 50 && getSystemState().wave === 0) resetState();
+    if (getPlayerState().life !== 50 && getSystemState().wave === 1) resetState();
     return;
   }
   if (getPlayerState().life <= 0) {
