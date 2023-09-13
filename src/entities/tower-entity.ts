@@ -32,13 +32,13 @@ export const TowerRange: { [key in TowerType]: number } = {
   ['Rice Farmer']: 0,
   ['Peasant']: 1,
   ['Tower']: 6,
-  ['Creeper']: 4,
+  ['Creeper']: 3,
 };
 
 export const TowerCd: { [key in TowerType]: number } = {
   ['Rice Farmer']: 20,
   ['Peasant']: 4,
-  ['Tower']: 4,
+  ['Tower']: 5,
   ['Creeper']: 1,
 };
 

@@ -50,12 +50,9 @@ const sleep = async () => {
  * Run game systems that make up the game logic. I.e. run ticks.
  */
 export const runGameSystems = () => {
-  if (!getSystemState().waveStarted) {
-    if (getPlayerState().life !== 50 && getSystemState().wave === 1) resetState();
-    return;
-  }
   if (getPlayerState().life <= 0) {
-    updateSystemState({ ...getSystemState(), waveStarted: false });
+    resetState();
+    grid.genEls();
     renderEndScreen(grid, 'You lost. Your country is ruined and burned!');
     return;
   }
@@ -139,7 +136,9 @@ export const runGameSystems = () => {
 export const runGameLoop = async () => {
   for (;;) {
     runGameSystems();
-    grid.genEls();
+    if (!getSystemState().showingEndScreen) {
+      grid.genEls();
+    }
     await sleep();
   }
 };

@@ -5,6 +5,7 @@ export type SystemState = {
   timer: number;
   wave: number;
   waveStarted: boolean;
+  showingEndScreen: boolean;
 };
 
 export type UiState = {
@@ -33,6 +34,7 @@ const defaultState = {
     timer: 0,
     wave: 1,
     waveStarted: false,
+    showingEndScreen: false,
   },
   player: {
     rice: 2000,
