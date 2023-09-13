@@ -56,7 +56,11 @@ const renderTowerInfo = (container: HTMLDivElement, grid: Grid, tower: TowerEnti
       element.textContent = e.name;
       const price = document.createElement('div');
       price.style.whiteSpace = 'break-spaces';
-      price.textContent = `Rice: ${e.price}\n\nAttack:${e.stats.attack}\nRange:${e.stats.range}\nCoolDown:${e.stats.cd}`;
+      const info =
+        e.name !== 'Rice plantation'
+          ? `Attack:${e.stats.attack}\nRange:${e.stats.range}\nCoolDown:${e.stats.cd}`
+          : `Produce: 100 rice\nin intervals`;
+      price.textContent = `Rice: ${e.price}\n\n${info}`;
       element.appendChild(price);
       element.onclick = () => {
         const state = getUiState();
@@ -126,7 +130,11 @@ const renderUnits = (container: HTMLDivElement, grid: Grid) => {
     element.textContent = e;
     const price = document.createElement('div');
     price.style.whiteSpace = 'break-spaces';
-    price.textContent = `Rice: ${UnitPrices[e]}\n\nAttack:${AttackPower[e]}\nRange:${TowerRange[e]}\nCoolDown:${TowerCd[e]}`;
+    const info =
+      e !== 'Rice Farmer'
+        ? `Attack:${AttackPower[e]}\nRange:${TowerRange[e]}\nCoolDown:${TowerCd[e]}`
+        : `Produce: 50 rice\nin intervals`;
+    price.textContent = `Rice: ${UnitPrices[e]}\n\n${info}`;
     element.appendChild(price);
     element.onclick = () => {
       const state = getUiState();
